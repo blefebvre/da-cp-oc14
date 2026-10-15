@@ -12,6 +12,13 @@ export default function decorate(block) {
     });
     ul.append(li);
   });
-  ul.querySelectorAll('picture > img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
+  // optimize same-origin (media bus) images; external image servers (Scene7)
+  // keep their own URL params (e.g. fmt=png-alpha for transparent product shots)
+  ul.querySelectorAll('picture > img').forEach((img) => {
+    if (new URL(img.src, window.location.href).origin !== window.location.origin) return;
+    img.closest('picture').replaceWith(
+      createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]),
+    );
+  });
   block.replaceChildren(ul);
 }

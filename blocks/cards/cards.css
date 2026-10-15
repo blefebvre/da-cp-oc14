@@ -19,8 +19,13 @@
   min-width: 0;
 }
 
+/* 4:3 mask (source .o-mask--broad): the image keeps its own ratio at full width,
+ * top-aligned; taller images are clipped at the bottom, wider ones leave the
+ * section background showing below them (as on the source) */
 .cards .cards-card-image {
   flex: none;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
   line-height: 0;
 }
 
@@ -31,9 +36,7 @@
 .cards .cards-card-image img {
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  object-position: center;
+  height: auto;
 }
 
 /* white tile (source .c-tile--shadow) */
@@ -62,6 +65,53 @@
   font-size: var(--body-font-size-m);
   font-weight: 300;
   line-height: 27px;
+}
+
+/* link list in the card body (source ul.c-list-ui, e.g. "Shop here" on /en/shop-online):
+ * black links, external ones led by the external-link icon */
+.cards .cards-card-body ul {
+  margin: 18px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cards .cards-card-body li {
+  padding: 5.4px 0;
+}
+
+/* single column: the source keeps the list's bottom margin inside the tile
+ * (multi-column rows are height-matched, which hides it) */
+@media (width < 720px) {
+  .cards .cards-card-body > ul:last-child {
+    margin-bottom: 18px;
+  }
+}
+
+.cards .cards-card-body li > a:any-link {
+  color: var(--text-color);
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.cards .cards-card-body li > a:hover {
+  text-decoration: underline;
+}
+
+.cards .cards-card-body li > a[href^="http"] {
+  position: relative;
+  display: inline-block;
+  padding-left: 16.2px;
+}
+
+.cards .cards-card-body li > a[href^="http"]::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 0;
+  width: 14px;
+  height: 16px;
+  background-color: currentcolor;
+  mask: url("/icons/external.svg") no-repeat center / contain;
 }
 
 /* "Read more": globally styled a.button.secondary; only the spacing is set here */
@@ -148,5 +198,136 @@
 @media (width >= 1140px) {
   .cards.jobs > ul {
     column-gap: 86.4px;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * Option "links": text-only sitemap link groups (www.cp.com /en/sys/sitemap .sitemap .o-grid)
+ * linked H6 group title + optional square-bulleted link list with white dividers;
+ * 1 column, 4 from 960px; no tile, background, shadow or border; no row gap
+ * ------------------------------------------------------------------ */
+
+/* grey band (source .sitemap > .c-row--neutral): 1px divider top border comes from the
+ * section; padding 18px / 21.6px below 720px, 36px 21.6px 27px to 1139px,
+ * 54px 43.2px 49.5px from 1140px (the side padding replaces the "wide" 3%) */
+main > .section.neutral:has(> .cards-wrapper > .cards.links) {
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
+
+@media (width >= 720px) {
+  main > .section.neutral:has(> .cards-wrapper > .cards.links) {
+    padding-top: 36px;
+    padding-bottom: 27px;
+  }
+}
+
+@media (width >= 1140px) {
+  main > .section.neutral:has(> .cards-wrapper > .cards.links) {
+    padding-top: 54px;
+    padding-bottom: 49.5px;
+  }
+
+  main > .section.neutral:has(> .cards-wrapper > .cards.links) > div {
+    max-width: none;
+    margin: 0;
+    padding: 0 43.2px;
+  }
+}
+
+/* the page title sits 18px above the band (h1 margin 9px + 9px), not the 54px text rhythm */
+main > .section:has(> .default-content-wrapper:last-child):has(+ .section > .cards-wrapper > .cards.links) {
+  padding-bottom: 9px;
+}
+
+/* source .o-grid--medium: margin-bottom 9px; gutter 21.6px (43.2px from 1140px) */
+.cards.links > ul {
+  margin: 0 0 9px;
+  grid-template-columns: 1fr;
+  gap: 0 21.6px;
+}
+
+/* source .u-mt-gamma.u-mb-gamma group box: 18px above and below each group */
+.cards.links .cards-card-body {
+  border: 0;
+  padding: 18px 0;
+  background: none;
+  box-shadow: none;
+}
+
+.cards.links .cards-card-body :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24.3px;
+  letter-spacing: normal;
+  color: var(--text-color);
+}
+
+/* group title link: black, no underline, unchanged on hover */
+.cards.links .cards-card-body :is(h1, h2, h3, h4, h5, h6) a:any-link,
+.cards.links .cards-card-body :is(h1, h2, h3, h4, h5, h6) a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* source ul.c-list-nested--indent */
+.cards.links .cards-card-body > ul {
+  margin: 0;
+  padding: 0 10.8px 0 0;
+  list-style: none;
+}
+
+/* source li.c-list-nested__item: white divider under every item (incl. the last) */
+.cards.links .cards-card-body > ul > li {
+  position: relative;
+  padding: 1.8px 0;
+  border-bottom: 1px solid #fff;
+}
+
+/* source a.c-list-nested__link: 16.2px indent led by the sprite's 9.11px square
+ * (carret--sprite.svg in a 14x16 box at 0 / 6px, i.e. the square at 2px / 10px) */
+.cards.links .cards-card-body li > a:any-link {
+  position: relative;
+  display: inline-block;
+  padding-left: 16.2px;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 27px;
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.cards.links .cards-card-body li > a:any-link::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 2px;
+  width: 9.11px;
+  height: 9.11px;
+  background-color: var(--text-color);
+  mask: none;
+}
+
+/* hover / focus: red text and red square, no underline (source sprite red #dc241f) */
+.cards.links .cards-card-body li > a:is(:hover, :focus-visible) {
+  color: var(--link-hover-color);
+  text-decoration: none;
+}
+
+.cards.links .cards-card-body li > a:is(:hover, :focus-visible)::before {
+  background-color: #dc241f;
+}
+
+@media (width >= 960px) {
+  .cards.links > ul {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (width >= 1140px) {
+  .cards.links > ul {
+    column-gap: 43.2px;
   }
 }

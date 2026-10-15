@@ -248,7 +248,7 @@ var CustomImportScript = (() => {
   }
   function firstSrcsetUrl(srcset) {
     if (!srcset) return "";
-    return srcset.split(",")[0].trim().split(/\s+/)[0] || "";
+    return srcset.trim().split(/,\s+/)[0].split(/\s+/)[0] || "";
   }
   function pictureSourceUrl(img) {
     const picture = img.closest("picture");
@@ -390,7 +390,7 @@ var CustomImportScript = (() => {
       const container = document.querySelector(".privacy-policy .otnotice");
       if (!container) return;
       const bundleMatch = all.match(/bundleUrl\s*=\s*"(https:\/\/[^"]+\/notice-bundles\/[\w-]+\.json)"/);
-      const noticeMatch = all.match(/LoadNotices\(\s*\[\s*"(https:\/\/[^"]+\/privacy-notices\/[\w-]+\.json)"/);
+      const noticeMatch = all.match(/LoadNotices\(\s*\[\s*"(https:\/\/[^"]+\/privacy-notices\/[\w/-]+\.json)"/);
       const select = document.querySelector(".privacy-policy select:not(#otnotice-language-dropdown)");
       if (bundleMatch && select) {
         const m = bundleMatch[1].match(/\/([\w-]+)\/notice-bundles\/([\w-]+)\.json$/);
@@ -428,6 +428,7 @@ var CustomImportScript = (() => {
     element.querySelectorAll(".privacy-policy").forEach((pp) => {
       WebImporter.DOMUtils.remove(pp, [
         ".otnotice-language-dropdown-container",
+        ".ot-privacy-notice-language-dropdown-container",
         "#otnotice-language-dropdown",
         ".otnotice-version"
       ]);

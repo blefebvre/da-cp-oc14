@@ -448,7 +448,7 @@ var CustomImportScript = (() => {
   }
   function firstSrcsetUrl(srcset) {
     if (!srcset) return "";
-    return srcset.split(",")[0].trim().split(/\s+/)[0] || "";
+    return srcset.trim().split(/,\s+/)[0].split(/\s+/)[0] || "";
   }
   function pictureSourceUrl(img) {
     const picture = img.closest("picture");

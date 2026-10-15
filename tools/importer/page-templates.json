@@ -520,9 +520,48 @@
         "https://www.cp.com/en/shop-online"
       ],
       "representativeUrl": "https://www.cp.com/en/shop-online",
-      "description": "To be named in naming step",
-      "blocks": [],
-      "urlPattern": "/en/*"
+      "description": "Chicago Pneumatic shop-online landing page (no global nav on the source): design-system red top banner -> hero (text-only: H1 + intro), webshop cards (image, title, text, external Shop here link) -> cards in a neutral grey section",
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            ".top-banner-design-system"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            ".local-contact-banner .o-grid"
+          ]
+        }
+      ],
+      "urlPattern": "/en/*",
+      "sections": [
+        {
+          "id": "s1",
+          "name": "shop-intro-banner",
+          "selector": [
+            ".columns-fullscreen > .top-banner-design-system"
+          ],
+          "style": null,
+          "blocks": [
+            "hero"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "s2",
+          "name": "shop-links",
+          "selector": [
+            ".columns-fullscreen > .local-contact-banner"
+          ],
+          "style": "neutral, wide",
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": []
+        }
+      ]
     },
     {
       "name": "sys",
@@ -530,9 +569,42 @@
         "https://www.cp.com/en/sys/sitemap"
       ],
       "representativeUrl": "https://www.cp.com/en/sys/sitemap",
-      "description": "To be named in naming step",
-      "blocks": [],
-      "urlPattern": "/en/sys/*"
+      "description": "Chicago Pneumatic HTML sitemap (/en/sys/sitemap): H1 as default content; AEM-generated page-tree link groups (linked H6 section title + child-page link list) -> cards (links) in a full-width neutral grey section",
+      "blocks": [
+        {
+          "name": "cards",
+          "instances": [
+            ".sitemap .o-grid"
+          ]
+        }
+      ],
+      "urlPattern": "/en/sys/*",
+      "sections": [
+        {
+          "id": "s1",
+          "name": "title",
+          "selector": [
+            ".cp-content-page > .title"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            ".title h1"
+          ]
+        },
+        {
+          "id": "s2",
+          "name": "sitemap-links",
+          "selector": [
+            ".cp-content-page > .sitemap"
+          ],
+          "style": "neutral, wide",
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": []
+        }
+      ]
     },
     {
       "name": "vulnerability-incident-reporting",
@@ -540,9 +612,38 @@
         "https://www.cp.com/en/vulnerability-incident-reporting"
       ],
       "representativeUrl": "https://www.cp.com/en/vulnerability-incident-reporting",
-      "description": "To be named in naming step",
+      "description": "Chicago Pneumatic product vulnerability / incident reporting page: H1, report CTA (cp.com AEM modal form, linked to its standalone form page), OneTrust-rendered vulnerability disclosure notice as default content in a notice-styled section",
       "blocks": [],
-      "urlPattern": "/en/*"
+      "urlPattern": "/en/*",
+      "sections": [
+        {
+          "id": "s1",
+          "name": "page-intro",
+          "selector": [
+            ".cp-content-page > .title"
+          ],
+          "style": "cta",
+          "blocks": [],
+          "defaultContent": [
+            ".title h1",
+            ".button a.c-button"
+          ]
+        },
+        {
+          "id": "s2",
+          "name": "disclosure-notice",
+          "selector": [
+            ".cp-content-page > .privacy-policy-secure"
+          ],
+          "style": "notice, inset",
+          "blocks": [],
+          "defaultContent": [
+            ".otnotice-section-header",
+            ".otnotice-section-content p",
+            ".otnotice-section-content ul"
+          ]
+        }
+      ]
     }
   ]
 }

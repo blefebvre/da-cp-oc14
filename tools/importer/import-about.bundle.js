@@ -219,7 +219,50 @@ var CustomImportScript = (() => {
     const block = WebImporter.Blocks.createBlock(document, { name: "cards (jobs)", cells: rows });
     element.replaceWith(...before, block);
   }
+  function parseLinks(element, document) {
+    const rows = [];
+    [...element.querySelectorAll(":scope > .o-grid__item")].forEach((item) => {
+      const title = item.querySelector("h1, h2, h3, h4, h5, h6");
+      if (!title) return;
+      const content = [];
+      const h = document.createElement(title.tagName.toLowerCase());
+      const a = title.querySelector("a[href]");
+      if (a) {
+        const link = document.createElement("a");
+        link.href = a.getAttribute("href");
+        link.textContent = cleanText2(a.textContent);
+        h.append(link);
+      } else {
+        h.textContent = cleanText2(title.textContent);
+      }
+      content.push(h);
+      const links = [...item.querySelectorAll("ul > li > a[href]")].filter((l) => cleanText2(l.textContent));
+      if (links.length) {
+        const ul = document.createElement("ul");
+        links.forEach((l) => {
+          const li = document.createElement("li");
+          const link = document.createElement("a");
+          link.href = l.getAttribute("href");
+          link.textContent = cleanText2(l.textContent);
+          li.append(link);
+          ul.append(li);
+        });
+        content.push(ul);
+      }
+      rows.push([content]);
+    });
+    if (!rows.length) {
+      element.replaceWith(...element.childNodes);
+      return;
+    }
+    const block = WebImporter.Blocks.createBlock(document, { name: "cards (links)", cells: rows });
+    element.replaceWith(block);
+  }
   function parse4(element, { document }) {
+    if (element.closest(".sitemap")) {
+      parseLinks(element, document);
+      return;
+    }
     if (element.closest(".recent-jobs-banner")) {
       parseJobs(element, document);
       return;
@@ -513,7 +556,7 @@ var CustomImportScript = (() => {
   }
   function firstSrcsetUrl(srcset) {
     if (!srcset) return "";
-    return srcset.split(",")[0].trim().split(/\s+/)[0] || "";
+    return srcset.trim().split(/,\s+/)[0].split(/\s+/)[0] || "";
   }
   function pictureSourceUrl(img) {
     const picture = img.closest("picture");

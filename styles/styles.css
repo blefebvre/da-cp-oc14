@@ -399,6 +399,34 @@ main .section.subdued > .default-content-wrapper :is(h1, h2, h3, h4, h5, h6) {
   color: var(--muted-text-color);
 }
 
+/* section: cta - centred call-to-action under the page title (source .button-align-center,
+ * e.g. "Report product vulnerability / incident"); the secondary button takes the
+ * source "tertiary" look: grey fill, near-black border, inverted on hover */
+main .section.cta > .default-content-wrapper p.button-wrapper {
+  margin: 90px 0 0;
+  text-align: center;
+}
+
+main .section.cta > .default-content-wrapper a.button.secondary {
+  border-color: #0d0d0d;
+  background-color: #ccc;
+  color: #0d0d0d;
+}
+
+main .section.cta > .default-content-wrapper a.button.secondary:hover,
+main .section.cta > .default-content-wrapper a.button.secondary:focus-visible {
+  border-color: #ccc;
+  background-color: #0d0d0d;
+  color: #ccc;
+}
+
+@media (width < 768px) {
+  main .section.cta > .default-content-wrapper a.button {
+    width: 100%;
+    white-space: normal;
+  }
+}
+
 /* source generated lists / banners sit 36px under their divider (18px below on mobile) */
 main > .section:is(.neutral, .wide, .center):has(> div:last-child:not(.default-content-wrapper)) {
   padding-bottom: 18px;
@@ -508,6 +536,32 @@ main .section.notice > .default-content-wrapper :is(p, ul, ol) + :is(h2, h3) {
 
 main .section.notice > .default-content-wrapper p {
   color: #0d0d0d;
+}
+
+/* notice, inset: newer OneTrust notice template (e.g. vulnerability disclosure notice):
+ * text inset 58px each side, 20px under the title, labels in regular weight */
+main .section.notice.inset > .default-content-wrapper {
+  padding-inline: calc(var(--gutter) + 58px);
+}
+
+@media (width >= 1280px) {
+  main .section.notice.inset > .default-content-wrapper {
+    max-width: calc(var(--content-max-width) - 116px);
+    padding-inline: 0;
+  }
+}
+
+main .section.notice.inset > .default-content-wrapper :is(h1, h2) {
+  margin-bottom: 20px;
+}
+
+main .section.notice.inset > .default-content-wrapper :is(p, li) > strong {
+  font-weight: 400;
+}
+
+/* topic labels (<p><strong>) follow a <p><br></p> spacer on the source */
+main .section.notice.inset > .default-content-wrapper :is(p, ul, ol) + p:has(> strong:only-child) {
+  margin-top: 45px;
 }
 
 /* link lists (every item is a single link, e.g. privacy hub, language selector) */

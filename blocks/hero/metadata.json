@@ -1,0 +1,25 @@
+{
+  "variantName": "hero",
+  "baseBlock": "hero",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "brand-red",
+    "density": "spacious",
+    "purpose": "page-banner",
+    "imagePattern": "none (optional background image)",
+    "structure": "h1 + intro paragraph",
+    "layout": "full-bleed band, text box left-aligned at 2/3 width, 48px padding; 267px tall at 1440"
+  },
+  "contentPattern": "Single cell: H1, then paragraph(s). Optional picture covers the background. Without a picture the block renders as a full-bleed brand-red band (hero-no-image) with white text. Source: www.cp.com/en/shop-online .top-banner-design-system.",
+  "usage": {
+    "pagesUsing": [
+      "https://www.cp.com/en/shop-online"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-15T00:00:00Z"
+  },
+  "options": [],
+  "memberVariantIds": [
+    "hero"
+  ]
+}

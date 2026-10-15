@@ -45,7 +45,9 @@ function toAbsolute(src, base) {
 
 function firstSrcsetUrl(srcset) {
   if (!srcset) return '';
-  return srcset.split(',')[0].trim().split(/\s+/)[0] || '';
+  // candidates are separated by a comma + whitespace; a bare comma can belong to
+  // the URL itself (Scene7 "?$landscape1280$&fit=stretch,1" on /en/shop-online)
+  return srcset.trim().split(/,\s+/)[0].split(/\s+/)[0] || '';
 }
 
 /**

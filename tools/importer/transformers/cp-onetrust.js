@@ -3,12 +3,16 @@
 
 /**
  * Transformer: Chicago Pneumatic (www.cp.com) OneTrust privacy notices.
- * Used by the privacy-policy / privacy-policy-2 templates only.
+ * Used by the privacy-policy / privacy-policy-2 / vulnerability-incident-reporting
+ * templates.
  *
  * Source structure (www.cp.com/en/privacy-policy/*, .cp-content-page >
  * .privacy-policy-secure > .privacy-policy > .c-parsys-divider__item):
  *   single notice  (cookie-policy):  .otnotice-language-dropdown-container +
  *                  div.otnotice#otnotice-<id> + script LoadNotices(["<notice>.json"])
+ *                  (vulnerability-incident-reporting uses the newer OneTrust markup:
+ *                  .ot-privacy-notice-language-dropdown-container and a
+ *                  privacy-notices/<id>/published/privacynotice.json notice URL)
  *   notice bundle  (privacy-notice, country-specific, legal-notice):
  *                  select#<name>Dropdown + button#otnotice-bundle-button +
  *                  div.otnotice#otnotice-bundle-container + script bundleUrl="<bundle>.json"
@@ -59,7 +63,7 @@ async function prepareOneTrust(document) {
   if (!container) return;
 
   const bundleMatch = all.match(/bundleUrl\s*=\s*"(https:\/\/[^"]+\/notice-bundles\/[\w-]+\.json)"/);
-  const noticeMatch = all.match(/LoadNotices\(\s*\[\s*"(https:\/\/[^"]+\/privacy-notices\/[\w-]+\.json)"/);
+  const noticeMatch = all.match(/LoadNotices\(\s*\[\s*"(https:\/\/[^"]+\/privacy-notices\/[\w/-]+\.json)"/);
   const select = document.querySelector('.privacy-policy select:not(#otnotice-language-dropdown)');
 
   if (bundleMatch && select) {
@@ -105,6 +109,7 @@ export default function transform(hookName, element, payload) {
   element.querySelectorAll('.privacy-policy').forEach((pp) => {
     WebImporter.DOMUtils.remove(pp, [
       '.otnotice-language-dropdown-container',
+      '.ot-privacy-notice-language-dropdown-container',
       '#otnotice-language-dropdown',
       '.otnotice-version',
     ]);

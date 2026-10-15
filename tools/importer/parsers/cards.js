@@ -68,7 +68,60 @@ function parseJobs(element, document) {
   element.replaceWith(...before, block);
 }
 
+/**
+ * Option "links" (https://www.cp.com/en/sys/sitemap HTML sitemap):
+ *   .sitemap .o-grid > .o-grid__item > div
+ *     > h6 > a.c-list__nested__link     (section page)
+ *     > ul.c-list-nested > li > a.c-link (child pages; the list may be empty)
+ *   -> 'cards (links)', one row per group, single cell [ h6 > a, ul > li > a ]
+ *   (static copy of the AEM-generated page tree at import time)
+ */
+function parseLinks(element, document) {
+  const rows = [];
+  [...element.querySelectorAll(':scope > .o-grid__item')].forEach((item) => {
+    const title = item.querySelector('h1, h2, h3, h4, h5, h6');
+    if (!title) return;
+    const content = [];
+    const h = document.createElement(title.tagName.toLowerCase());
+    const a = title.querySelector('a[href]');
+    if (a) {
+      const link = document.createElement('a');
+      link.href = a.getAttribute('href');
+      link.textContent = cleanText(a.textContent);
+      h.append(link);
+    } else {
+      h.textContent = cleanText(title.textContent);
+    }
+    content.push(h);
+    const links = [...item.querySelectorAll('ul > li > a[href]')]
+      .filter((l) => cleanText(l.textContent));
+    if (links.length) {
+      const ul = document.createElement('ul');
+      links.forEach((l) => {
+        const li = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = l.getAttribute('href');
+        link.textContent = cleanText(l.textContent);
+        li.append(link);
+        ul.append(li);
+      });
+      content.push(ul);
+    }
+    rows.push([content]);
+  });
+  if (!rows.length) {
+    element.replaceWith(...element.childNodes);
+    return;
+  }
+  const block = WebImporter.Blocks.createBlock(document, { name: 'cards (links)', cells: rows });
+  element.replaceWith(block);
+}
+
 export default function parse(element, { document }) {
+  if (element.closest('.sitemap')) {
+    parseLinks(element, document);
+    return;
+  }
   if (element.closest('.recent-jobs-banner')) {
     parseJobs(element, document);
     return;

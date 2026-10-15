@@ -10,21 +10,28 @@
     "structure": "image + heading + text + optional 'Read more' button",
     "layout": "grid 1 / 2 / 4 columns (<720 / 720-1399 / >=1400px), 4:3 image over a white shadowed tile"
   },
-  "contentPattern": "One row per card: cell 1 = image; cell 2 = heading, paragraph(s), optional button link. Option jobs: one row per job, single cell = H6 > a (title), p (category), p (date).",
+  "contentPattern": "One row per card: cell 1 = image; cell 2 = heading, paragraph(s), optional button link. Option jobs: one row per job, single cell = H6 > a (title), p (category), p (date). Option links: one row per group, single cell = H6 > a (title), ul > li > a (links, optional).",
   "usage": {
     "pagesUsing": [
       "https://www.cp.com/en/about/what-we-offer",
       "https://www.cp.com/en/careers",
-      "https://www.cp.com/en/careers/our-culture"
+      "https://www.cp.com/en/careers/our-culture",
+      "https://www.cp.com/en/shop-online",
+      "https://www.cp.com/en/sys/sitemap"
     ],
-    "reuseCount": 3,
-    "lastUsed": "2026-10-15T07:10:44Z"
+    "reuseCount": 5,
+    "lastUsed": "2026-10-15T08:37:32Z"
   },
   "options": [
     {
       "class": "jobs",
       "label": "Jobs",
       "description": "Text-only job list: linked H6 title (18px, weight 600), grey category and date captions; no image, border, shadow or background. 2 columns, 4 from 720px. Use in a section with style 'wide' under a heading. Source: www.cp.com/en/careers .recent-jobs-banner."
+    },
+    {
+      "class": "links",
+      "label": "Links",
+      "description": "Text-only sitemap link groups: one row per group, single cell = H6 > a (group title, Arial Black 18px, weight 600) then an optional ul > li > a list of links (18px, black square bullet, 1px white divider under each item); no image, tile, border, shadow or background. 1 column, 4 from 960px. Use in a section with style 'neutral, wide'. Source: www.cp.com/en/sys/sitemap .sitemap .o-grid."
     }
   ],
   "memberVariantIds": [
