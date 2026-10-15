@@ -15,10 +15,11 @@ header nav {
   box-sizing: border-box;
   display: grid;
   grid-template:
-    'meta meta' 47px
-    'brand more' 48px / 1fr auto;
+    'meta' 47px
+    'brand' 58px
+    'more' 58px / 1fr;
   align-items: start;
-  height: 95px;
+  height: 163px;
   padding: 0 var(--gutter);
   background-color: #000;
   font-family: var(--body-font-family);
@@ -338,11 +339,12 @@ header .nav-search-highlight p a:focus-visible {
 /* mobile "More" menu */
 header .nav-more {
   grid-area: more;
+  place-self: end end;
   display: flex;
   align-items: center;
   gap: 8px;
-  height: 48px;
-  padding: 6px 18px 15px;
+  height: 58px;
+  padding: 16px 18px 15px;
   font-family: var(--heading-font-family);
   font-size: 18px;
   font-weight: 700;
@@ -362,7 +364,7 @@ header nav[aria-expanded="true"] .nav-more {
 header .nav-more-panel {
   display: none;
   position: absolute;
-  top: 99px;
+  top: 167px;
   left: 0;
   right: 0;
   background-color: var(--brand-red);

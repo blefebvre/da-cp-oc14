@@ -19,6 +19,12 @@
   /* spacing */
   --gutter: 21.6px;
   --content-max-width: 960px;
-  --section-padding: 54px;
-  --nav-height: 100px;
+  --section-padding: 18px;
+  --nav-height: 167px;
+}
+
+@media (width >= 768px) {
+  :root {
+    --section-padding: 54px;
+  }
 }

@@ -27,6 +27,12 @@
   --heading-font-size-xs: 18px;
 }
 
+@media (width >= 900px) {
+  :root {
+    --nav-height: 100px;
+  }
+}
+
 @media (width >= 768px) {
   :root {
     /* heading sizes (desktop) */
@@ -337,8 +343,8 @@ main .section.dark :is(h1, h2, h3, h4, h5, h6, a:any-link) {
   color: #fff;
 }
 
-/* statement: large intro sentence styled one size down (source uses h2.u-h3) */
+/* statement: large intro sentence, 28px at every width (source uses h2.u-h3) */
 main .section.statement h2 {
-  font-size: var(--heading-font-size-l);
+  font-size: 28px;
   line-height: 1.1;
 }

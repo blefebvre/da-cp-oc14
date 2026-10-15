@@ -10,7 +10,7 @@ main > .section.cards-crossroad-container > .cards-crossroad-wrapper {
 .cards-crossroad > ul {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
   margin: 0;
   padding: 0 0 10px;
   list-style: none;
@@ -80,15 +80,17 @@ main > .section.cards-crossroad-container > .cards-crossroad-wrapper {
   letter-spacing: -0.9px;
 }
 
+/* overflow: clip (not hidden) so the paragraph's 18px bottom margin collapses
+   with this one, like on the source - geometry stays identical */
 .cards-crossroad .cards-crossroad-card-description {
   max-height: 0;
   margin-bottom: 18px;
-  overflow: hidden;
+  overflow: clip;
   opacity: 0;
 }
 
 .cards-crossroad .cards-crossroad-card-description p {
-  margin: 0;
+  margin: 0 0 18px;
   color: #fff;
   font-family: var(--body-font-family);
   font-size: 21px;
@@ -120,24 +122,98 @@ main > .section.cards-crossroad-container > .cards-crossroad-wrapper {
   text-decoration: none;
 }
 
-.cards-crossroad .cards-crossroad-card-regions {
-  max-height: 320px;
-  margin: 18px 0 0;
-  padding: 10px;
-  overflow-y: auto;
-  list-style: none;
-  background: rgb(36 36 36);
+/* region / language picker: overlays the card box, scrolls internally */
+.cards-crossroad .cards-crossroad-card-picker {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 15px;
+  background-color: rgb(36 36 36);
   color: #fff;
   font-family: var(--body-font-family);
-  font-size: var(--body-font-size-s);
-  font-weight: 400;
-  line-height: 1.5;
+  cursor: auto;
+}
+
+.cards-crossroad .cards-crossroad-card-picker[hidden] {
+  display: none;
+}
+
+.cards-crossroad .cards-crossroad-card-picker-bar {
+  position: relative;
+  flex: none;
+  margin: 0 0 10px;
+  padding: 15px 40px;
+  background-color: rgb(64 64 66);
+  text-align: center;
+}
+
+.cards-crossroad .cards-crossroad-card-picker-title {
+  margin: 0;
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 26.4px;
+}
+
+/* the whole title bar closes the picker; up-chevron on the right */
+.cards-crossroad .cards-crossroad-card-picker-close {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.cards-crossroad .cards-crossroad-card-picker-close::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 25px;
+  width: 12.6px;
+  height: 12.6px;
+  box-sizing: border-box;
+  border-style: solid;
+  border-color: #fff;
+  border-width: 2px 2px 0 0;
+  transform: translateY(-25%) rotate(-45deg);
+}
+
+.cards-crossroad .cards-crossroad-card-picker-close:focus-visible {
+  outline: 1px solid #fff;
+  outline-offset: -4px;
+}
+
+.cards-crossroad .cards-crossroad-card-picker-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 10px;
+  overflow-y: auto;
   overscroll-behavior: contain;
 }
 
+.cards-crossroad .cards-crossroad-card-regions {
+  margin: 0 0 18px;
+  padding: 0;
+  list-style: none;
+  color: #fff;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 27px;
+}
+
+/* left inset keeps text where the source shows flags (25px icon + 5px gap) */
 .cards-crossroad .cards-crossroad-card-regions li {
   margin: 0;
-  padding: 3px 0;
+  padding: 10px 10px 10px 45px;
+  border-bottom: 1px solid rgb(87 88 91);
 }
 
 .cards-crossroad .cards-crossroad-card-regions a:any-link {
@@ -145,10 +221,20 @@ main > .section.cards-crossroad-container > .cards-crossroad-wrapper {
   text-decoration: none;
 }
 
-.cards-crossroad .cards-crossroad-card-regions a:hover,
-.cards-crossroad .cards-crossroad-card-regions a:focus-visible {
-  color: var(--brand-red);
+.cards-crossroad .cards-crossroad-card-regions a:hover .cards-crossroad-region-country,
+.cards-crossroad .cards-crossroad-card-regions a:hover .cards-crossroad-region-language,
+.cards-crossroad .cards-crossroad-card-regions a:focus-visible .cards-crossroad-region-country,
+.cards-crossroad .cards-crossroad-card-regions a:focus-visible .cards-crossroad-region-language {
   text-decoration: underline;
+}
+
+.cards-crossroad .cards-crossroad-region-divider {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin: 0 5px;
+  background-color: rgb(197 147 41);
+  vertical-align: middle;
 }
 
 /* "+" toggle (red square, bottom-right) */
@@ -192,9 +278,9 @@ main > .section.cards-crossroad-container > .cards-crossroad-wrapper {
   display: block;
 }
 
-/* keep the open content clear of the bottom-right toggle */
+/* open card: source leaves 67px under the Explore button (clears the toggle) */
 .cards-crossroad .cards-crossroad-card.is-open .cards-crossroad-card-body {
-  padding-bottom: 75px;
+  padding-bottom: 67px;
 }
 
 .cards-crossroad .cards-crossroad-card.is-open .cards-crossroad-card-toggle {
@@ -225,7 +311,8 @@ main > .section.cards-crossroad-container > .cards-crossroad-wrapper {
   /* hovered panel grows to 2x (50% / 25% / 25%) */
   .cards-crossroad .cards-crossroad-card:hover,
   .cards-crossroad .cards-crossroad-card:focus-within,
-  .cards-crossroad .cards-crossroad-card.is-open {
+  .cards-crossroad .cards-crossroad-card.is-open,
+  .cards-crossroad .cards-crossroad-card.is-picker-open {
     flex-grow: 2;
   }
 
@@ -284,36 +371,8 @@ main > .section.cards-crossroad-container > .cards-crossroad-wrapper {
     outline-offset: -1px;
   }
 
-  .cards-crossroad .cards-crossroad-card-regions {
-    display: none;
-  }
-
+  /* no "+" toggle on desktop: the card itself opens the picker */
   .cards-crossroad .cards-crossroad-card-toggle {
-    opacity: 0;
-  }
-
-  .cards-crossroad .cards-crossroad-card:hover .cards-crossroad-card-toggle,
-  .cards-crossroad .cards-crossroad-card:focus-within .cards-crossroad-card-toggle,
-  .cards-crossroad .cards-crossroad-card.is-open .cards-crossroad-card-toggle {
-    opacity: 1;
-  }
-
-  /* open (desktop): show explore button + region list in the band */
-  .cards-crossroad .cards-crossroad-card.is-open .cards-crossroad-card-explore {
-    height: auto;
-    margin: 0;
-    overflow: visible;
-  }
-
-  .cards-crossroad .cards-crossroad-card.is-open .cards-crossroad-card-explore a::after {
-    content: none;
-  }
-
-  .cards-crossroad .cards-crossroad-card.is-open .cards-crossroad-card-regions {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 18px;
-    max-height: 240px;
-    margin-right: 35px;
+    display: none;
   }
 }
