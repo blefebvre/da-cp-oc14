@@ -26,6 +26,24 @@ function querySection(root, selectors) {
   return null;
 }
 
+// True when nothing with text or media precedes `el` inside `root`, i.e. a
+// break before it would only open an empty first section (e.g. /en/about has
+// no hero, so its "intro" section is the first content on the page).
+function isLeadingContent(root, el) {
+  let node = el;
+  while (node && node !== root) {
+    let prev = node.previousSibling;
+    while (prev) {
+      if (prev.nodeType === 3 && prev.textContent.trim()) return false;
+      if (prev.nodeType === 1 && (prev.textContent.replace(/[\s ]+/g, '')
+        || prev.querySelector('img, picture, video, iframe, table'))) return false;
+      prev = prev.previousSibling;
+    }
+    node = node.parentNode;
+  }
+  return true;
+}
+
 export default function transform(hookName, element, payload) {
   const sections = (payload && payload.template && payload.template.sections) || [];
   if (sections.length < 2) return;
@@ -37,6 +55,10 @@ export default function transform(hookName, element, payload) {
       if (i === 0 && !section.style) continue;
       const sectionEl = querySection(element, section.selector);
       if (!sectionEl) continue;
+      // header chrome is still in the DOM here (removed in afterTransform), so
+      // measure "leading" within #main
+      const scope = sectionEl.closest('#main') || element;
+      if (!section.style && isLeadingContent(scope, sectionEl)) continue;
 
       const hr = doc.createElement('hr');
       if (section.style) hr.setAttribute(SECTION_MARKER_ATTR, section.id);

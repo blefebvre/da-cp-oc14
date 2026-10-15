@@ -121,3 +121,122 @@ main > .section > .cards-tile-wrapper {
     padding-top: calc(50% - 4px);
   }
 }
+
+/* ------------------------------------------------------------------
+ * Options "related" and "list": black caption bar, 4:3 tiles
+ * (values from www.cp.com .generated-list .c-tile, card--black)
+ *  - related: "Related links" list, 4 per row in a centred 75% column
+ *  - list:    full-width generated list, 3 per row, left-aligned titles
+ * ------------------------------------------------------------------ */
+
+/* options sit in the regular section column (undo the default full-bleed wrapper) */
+main > .section > .cards-tile-wrapper:has(> .cards-tile:is(.related, .list)) {
+  padding: 0 var(--gutter);
+}
+
+.cards-tile:is(.related, .list) > ul {
+  display: flex;
+  flex-wrap: wrap;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  gap: 0;
+}
+
+/* list: tiles align with the section content edge (source .o-grid--small -0.6rem);
+   18px under the title (source .u-mb-gamma title box, collapses with the heading margin) */
+.cards-tile.list > ul {
+  margin: 18px -10.8px 0;
+}
+
+/* one tile per row; 10.8px spacing on every side (source item padding + spacer margin) */
+.cards-tile:is(.related, .list) > ul > li {
+  flex: 0 0 calc(100% - 21.6px);
+  margin: 10.8px;
+}
+
+/* 4:3 image box; the photo keeps its own ratio, top aligned, clipped by the tile */
+.cards-tile:is(.related, .list) .cards-tile-card-image {
+  padding-top: 75%;
+}
+
+.cards-tile:is(.related, .list) .cards-tile-card-image picture {
+  inset: 0 0 auto;
+}
+
+.cards-tile:is(.related, .list) .cards-tile-card-image img {
+  height: auto;
+}
+
+/* black caption bar */
+.cards-tile:is(.related, .list) .cards-tile-card-body {
+  background-color: var(--dark-color);
+}
+
+.cards-tile.related .cards-tile-card-body {
+  text-align: center;
+}
+
+/* description: hidden, revealed on hover from 720px (source .c-tile__desc) */
+.cards-tile:is(.related, .list) .cards-tile-card-body > :not(:first-child) {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  font-size: 16px;
+  line-height: 24px;
+  transition: opacity 0.5s, max-height 0.5s, padding 0.5s;
+}
+
+@media (width >= 520px) {
+  .cards-tile:is(.related, .list) > ul > li {
+    flex-basis: calc(50% - 21.6px);
+  }
+}
+
+@media (width >= 720px) {
+  .cards-tile:is(.related, .list) .cards-tile-card:is(:hover, :focus-within) .cards-tile-card-body > :not(:first-child) {
+    max-height: 300px;
+    opacity: 1;
+    padding-top: 10.8px;
+    transition: opacity 0.2s, max-height 0.5s;
+  }
+}
+
+@media (width >= 960px) {
+  main > .section > .cards-tile-wrapper:has(> .cards-tile.related) {
+    padding: 0;
+  }
+
+  .cards-tile.related > ul {
+    width: 75%;
+    margin: 0 auto;
+  }
+
+  .cards-tile.related > ul > li {
+    flex-basis: calc(25% - 21.6px);
+  }
+
+  .cards-tile.list > ul > li {
+    flex-basis: calc(100% / 3 - 21.6px);
+  }
+
+  /* fewer than 4 tiles: offset like the source centring script
+     (margin = (row width - n * tile width) / 2, plus the 10.8px item padding) */
+  .cards-tile.related > ul > li:first-child:nth-last-child(3) {
+    margin-left: calc(12.5% + 43.2px);
+  }
+
+  .cards-tile.related > ul > li:first-child:nth-last-child(2) {
+    margin-left: calc(25% + 32.4px);
+  }
+
+  .cards-tile.related > ul > li:first-child:nth-last-child(1) {
+    margin-left: calc(37.5% + 21.6px);
+  }
+}
+
+@media (width >= 1280px) {
+  main > .section > .cards-tile-wrapper:has(> .cards-tile.list) {
+    padding: 0 3%;
+  }
+}

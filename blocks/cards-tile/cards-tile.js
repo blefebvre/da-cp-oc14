@@ -50,9 +50,19 @@ export default function decorate(block) {
     if (li.children.length) ul.append(li);
   });
 
+  // the related/list options show photos at their own ratio: ask Dynamic Media (Scene7)
+  // not to pad presets for images smaller than the preset (white bars otherwise)
+  const naturalRatio = block.classList.contains('related') || block.classList.contains('list');
+
   // optimize same-origin (media bus) images; external image servers keep their own URL params
   ul.querySelectorAll('picture > img').forEach((img) => {
-    if (new URL(img.src, window.location.href).origin !== window.location.origin) return;
+    const url = new URL(img.src, window.location.href);
+    if (url.origin !== window.location.origin) {
+      if (naturalRatio && url.pathname.includes('/is/image/') && !/[?&]fit=/.test(url.search)) {
+        img.src = `${url.href}${url.search ? '&' : '?'}fit=constrain`;
+      }
+      return;
+    }
     img.closest('picture').replaceWith(
       createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]),
     );

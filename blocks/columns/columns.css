@@ -1,33 +1,73 @@
+/* columns (www.cp.com .paragraph-with-image: rich text with an image beside it) */
+.columns {
+  margin-bottom: 21.6px;
+}
+
 .columns > div {
   display: flex;
   flex-direction: column;
+}
+
+.columns > div > div {
+  order: 1;
+  min-width: 0;
+}
+
+.columns > div > .columns-img-col {
+  order: 0;
+  margin: 18px 0;
 }
 
 .columns img {
   width: 100%;
 }
 
-.columns > div > div {
-  order: 1;
-}
-
-.columns > div > .columns-img-col {
-  order: 0;
-}
-
+/* source nudges the image 0.25em (4.5px) down inside its box without affecting flow */
 .columns > div > .columns-img-col img {
   display: block;
+  position: relative;
+  top: 0.25em;
 }
 
-@media (width >= 900px) {
+/* bullet lists: red bullet, 13.5px indent (same as default content) */
+.columns ul {
+  padding-left: 0;
+  list-style: none;
+}
+
+.columns ul > li {
+  position: relative;
+  padding-left: 13.5px;
+}
+
+.columns ul > li::before {
+  content: "•";
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: var(--brand-red);
+}
+
+/* text links inside paragraphs are underlined on the source */
+.columns p > a:any-link:not(.button) {
+  text-decoration: underline;
+}
+
+@media (width >= 720px) {
   .columns > div {
-    align-items: center;
-    flex-direction: unset;
-    gap: 24px;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 18px;
   }
 
   .columns > div > div {
-    flex: 1;
+    flex: 1 1 0;
     order: unset;
+  }
+
+  /* source floats the image right from 45em (720px): fixed 300px box, 18px gutter, top-aligned with the text */
+  .columns > div > .columns-img-col {
+    flex: 0 0 300px;
+    margin: 0 0 18px;
   }
 }

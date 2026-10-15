@@ -14,6 +14,11 @@ async function fetchNav() {
   if (!resp.ok) return null;
   const container = document.createElement('div');
   container.innerHTML = await resp.text();
+  // relative image paths are relative to the fragment, not to the current page
+  container.querySelectorAll('img[src]').forEach((img) => {
+    const src = img.getAttribute('src');
+    if (!/^(?:[a-z]+:|\/)/i.test(src)) img.src = new URL(src, resp.url).href;
+  });
   return container;
 }
 

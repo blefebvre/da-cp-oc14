@@ -12,10 +12,26 @@
   },
   "contentPattern": "One row per tile: cell 1 = image; cell 2 = H4 (or paragraph) containing link to /en/about and /en/careers respectively.",
   "usage": {
-    "pagesUsing": ["https://www.cp.com/en"],
-    "reuseCount": 1,
+    "pagesUsing": [
+      "https://www.cp.com/en",
+      "https://www.cp.com/en/about"
+    ],
+    "reuseCount": 2,
     "lastUsed": "2026-10-15"
   },
-  "options": [],
-  "memberVariantIds": ["cards-tile"]
+  "options": [
+    {
+      "class": "related",
+      "label": "Related links",
+      "description": "Black caption bar, centred titles, 4:3 tiles 4 per row in a centred 75% column (1 / 2 / 4 per row at <520 / 520-959 / >=960px); description (2nd paragraph) hidden, revealed on hover from 720px. Source: www.cp.com/en/about 'Related links' generated list."
+    },
+    {
+      "class": "list",
+      "label": "List",
+      "description": "Black caption bar, left-aligned titles, 4:3 tiles 3 per row at full section width (use with section style 'wide'; 1 / 2 / 3 per row at <520 / 520-959 / >=960px); description hidden, revealed on hover from 720px. Source: www.cp.com/en/about/sustainability 'More on sustainability' generated list."
+    }
+  ],
+  "memberVariantIds": [
+    "cards-tile"
+  ]
 }

@@ -1,27 +1,88 @@
+/* cards: image-over-tile cards (values from www.cp.com .local-contact-card / .c-tile--shadow) */
+
+/* grid: 21.6px gutter both ways; 1 / 2 / 4 columns (source u-1-of-2-bp3, u-1-of-4-bp6) */
 .cards > ul {
   list-style: none;
-  margin: 0;
+
+  /* source heading box margin (18px) + item margin (10.8px); collapses with a heading's 9px */
+  margin: 28.8px 0 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
-  gap: 24px;
+  grid-template-columns: 1fr;
+  gap: var(--gutter);
 }
 
+/* each card stretches to its row height; the white tile fills what the image leaves */
 .cards > ul > li {
-  border: 1px solid #dadada;
-  background-color: var(--background-color);
-}
-
-.cards .cards-card-body {
-  margin: 16px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
 .cards .cards-card-image {
+  flex: none;
   line-height: 0;
 }
 
-.cards > ul > li img {
+.cards .cards-card-image picture {
+  display: block;
+}
+
+.cards .cards-card-image img {
+  display: block;
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
+  object-position: center;
+}
+
+/* white tile (source .c-tile--shadow) */
+.cards .cards-card-body {
+  flex: 1 1 auto;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  padding: 18px;
+  background-color: var(--background-color);
+  box-shadow: rgb(13 13 13 / 10%) 0 1px 1.5px 0, rgb(13 13 13 / 10%) 0 1px 1px 0;
+}
+
+.cards .cards-card-body > :last-child {
+  margin-bottom: 0;
+}
+
+.cards .cards-card-body :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0 0 9px;
+  font-size: 21px;
+  line-height: 28.35px;
+  letter-spacing: normal;
+}
+
+.cards .cards-card-body p {
+  margin: 0 0 18px;
+  font-size: var(--body-font-size-m);
+  font-weight: 300;
+  line-height: 27px;
+}
+
+/* "Read more": globally styled a.button.secondary; only the spacing is set here */
+.cards .cards-card-body p.button-wrapper {
+  margin: 18px 0 0;
+}
+
+@media (width >= 720px) {
+  .cards > ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (width >= 768px) {
+  .cards > ul {
+    margin-bottom: 10.8px;
+  }
+}
+
+@media (width >= 1400px) {
+  .cards > ul {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }

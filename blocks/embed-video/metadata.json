@@ -1,0 +1,31 @@
+{
+  "variantName": "embed-video",
+  "baseBlock": "embed",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "normal",
+    "purpose": "video-embed",
+    "imagePattern": "full-width media",
+    "structure": "single video link",
+    "layout": "16:9 iframe at content width; 'hero' option = full-bleed autoplay background video"
+  },
+  "contentPattern": "Single cell with a video URL link (YouTube/Vimeo watch URL, youtu.be, or direct .mp4/.webm file) + optional poster image",
+  "usage": {
+    "pagesUsing": [
+      "https://www.cp.com/en/about",
+      "https://www.cp.com/en/about/sustainability"
+    ],
+    "reuseCount": 2,
+    "lastUsed": "2026-10-15"
+  },
+  "options": [
+    {
+      "class": "hero",
+      "label": "Hero"
+    }
+  ],
+  "memberVariantIds": [
+    "embed-video"
+  ]
+}

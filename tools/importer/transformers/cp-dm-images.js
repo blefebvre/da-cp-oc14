@@ -48,6 +48,31 @@ function firstSrcsetUrl(srcset) {
   return srcset.split(',')[0].trim().split(/\s+/)[0] || '';
 }
 
+/**
+ * Lazy <picture> elements on content pages (e.g. /en/about/what-we-offer
+ * .image.s-editor, .generated-list .c-tile__img, .local-contact-card) keep a
+ * 1x1 GIF placeholder in img[srcset] and carry the Scene7 renditions only in
+ * the sibling <source srcset> elements:
+ *   <source media="(min-width: 1280px)" srcset="//atlascopco.scene7.com/is/image/atlascopco/x?$landscape1280$">
+ * Pick the preferred rendition (min-width 1280px, else the first DM source).
+ */
+function pictureSourceUrl(img) {
+  const picture = img.closest('picture');
+  if (!picture) return '';
+  const sources = [...picture.querySelectorAll('source')]
+    .map((s) => ({
+      media: s.getAttribute('media') || '',
+      // lazysizes swaps data-srcset into srcset only once in view; before
+      // that srcset may hold the GIF placeholder
+      url: [s.getAttribute('srcset'), s.getAttribute('data-srcset')]
+        .map(firstSrcsetUrl).find((u) => u && detectDynamicMediaUrl(u)) || '',
+    }))
+    .filter((s) => s.url && detectDynamicMediaUrl(s.url));
+  if (!sources.length) return '';
+  const preferred = sources.find((s) => /min-width:\s*1280px/.test(s.media)) || sources[0];
+  return preferred.url;
+}
+
 export default function transform(hookName, element, payload) {
   const base = (payload && payload.url) || 'https://www.cp.com/';
 
@@ -56,7 +81,16 @@ export default function transform(hookName, element, payload) {
       const lazy = LAZY_SRC_ATTRS.map((a) => img.getAttribute(a)).find((v) => v && detectDynamicMediaUrl(v));
       const fromSrcset = firstSrcsetUrl(img.getAttribute('srcset') || img.getAttribute('data-srcset'));
       const current = img.getAttribute('src') || '';
-      if (!detectDynamicMediaUrl(current)) {
+      // <picture> renditions first: lazysizes leaves either a GIF placeholder
+      // or only the smallest ($landscape400$) rendition in img[src|srcset]
+      const fromSource = (!current || current.startsWith('data:') || detectDynamicMediaUrl(current))
+        ? pictureSourceUrl(img) : '';
+      if (fromSource) {
+        img.setAttribute('src', fromSource);
+        // the placeholder srcset would otherwise win over src
+        img.removeAttribute('srcset');
+        img.removeAttribute('data-srcset');
+      } else if (!detectDynamicMediaUrl(current)) {
         if (lazy) img.setAttribute('src', lazy);
         else if (fromSrcset && detectDynamicMediaUrl(fromSrcset)) img.setAttribute('src', fromSrcset);
       }
@@ -74,7 +108,9 @@ export default function transform(hookName, element, payload) {
       const src = img.getAttribute('src') || '';
       if (!detectDynamicMediaUrl(src)) return;
 
-      img.setAttribute('src', toAbsolute(src, base));
+      // generated-list tiles only expose the 400px preset; the 800px preset of
+      // the same asset keeps them sharp on 2x screens
+      img.setAttribute('src', toAbsolute(src, base).replace('$landscape400$', '$landscape800$'));
       ['srcset', 'data-srcset', 'sizes', 'loading', ...LAZY_SRC_ATTRS].forEach((a) => img.removeAttribute(a));
 
       // Drop <source> siblings so the Scene7 <img> is the only rendition.

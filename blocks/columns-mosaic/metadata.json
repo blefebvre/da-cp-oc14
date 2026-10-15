@@ -1,0 +1,25 @@
+{
+  "variantName": "columns-mosaic",
+  "baseBlock": "columns",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "mixed red/black/white",
+    "density": "compact",
+    "purpose": "brand-values-mosaic",
+    "imagePattern": "half-split alternating",
+    "structure": "image | heading + description (alternating sides)",
+    "layout": "2 equal columns within 75% centered width from 960px (8px between tiles, 4px outer inset), tiles 2:1 from 1200px and square 960-1199px; stacked 1 column below 960px in authored order (square below 600px, 2:1 from 600px)"
+  },
+  "contentPattern": "Rows of 2 cells: [image | H4 + p] or [H4 + p | image]. The image side follows cell order; text tiles alternate red (odd rows) and black (even rows).",
+  "usage": {
+    "pagesUsing": [
+      "https://www.cp.com/en/about"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-15"
+  },
+  "options": [],
+  "memberVariantIds": [
+    "columns-mosaic"
+  ]
+}

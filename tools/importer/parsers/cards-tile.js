@@ -73,7 +73,8 @@ export default function parse(element, { document }) {
 
     const contentWrap = tile.querySelector('.c-tile__content');
     if (contentWrap) {
-      [...contentWrap.querySelectorAll(':scope > p')].forEach((p) => {
+      // direct paragraphs (homepage) or the generated-list teaser (.c-tile__desc > p)
+      [...contentWrap.querySelectorAll(':scope > p, :scope > .c-tile__desc > p')].forEach((p) => {
         if (cleanText(p.textContent)) content.push(p);
       });
     }
@@ -87,6 +88,17 @@ export default function parse(element, { document }) {
     return;
   }
 
-  const block = WebImporter.Blocks.createBlock(document, { name: 'cards-tile', cells });
+  // Generated link lists on content pages (/en/about/* .generated-list, black
+  // caption bar on 4:3 photos): "related" = centred 75%-width list
+  // (.u-align-75percent-center, "Related links"), "list" = full-width list
+  // ("More on sustainability"). Homepage .card-overview tiles stay the default.
+  const list = element.closest('.generated-list');
+  let name = 'cards-tile';
+  if (list) {
+    name = list.classList.contains('u-align-75percent-center') || list.querySelector('.generated-list-centered')
+      ? 'cards-tile (related)' : 'cards-tile (list)';
+  }
+
+  const block = WebImporter.Blocks.createBlock(document, { name, cells });
   element.replaceWith(block);
 }

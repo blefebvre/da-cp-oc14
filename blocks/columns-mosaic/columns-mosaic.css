@@ -1,0 +1,141 @@
+/* columns-mosaic: checkerboard of photo + solid colour text tiles (www.cp.com/en/about .card-overview) */
+
+/* the block sits directly under the section divider (1px top border from the section) */
+main > .section.columns-mosaic-container:has(> .columns-mosaic-wrapper:first-child) {
+  padding-top: 0;
+}
+
+/* tiles run edge to edge on mobile and span 75% of the viewport on desktop */
+main > .section > .columns-mosaic-wrapper {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* source .o-grid: 4px outer margin, each tile cell carries a 4px inset (8px between tiles) */
+.columns-mosaic {
+  box-sizing: border-box;
+  margin: 4px;
+}
+
+.columns-mosaic .columns-mosaic-row {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+/* the 4px transparent border is the source cell padding; backgrounds stop inside it */
+.columns-mosaic .columns-mosaic-tile {
+  position: relative;
+  box-sizing: border-box;
+  min-width: 0;
+  aspect-ratio: 1 / 1;
+  border: 4px solid transparent;
+  background-clip: padding-box;
+}
+
+/* image tile: photo covers the tile */
+.columns-mosaic .columns-mosaic-image {
+  overflow: hidden;
+  line-height: 0;
+}
+
+.columns-mosaic .columns-mosaic-image picture {
+  position: absolute;
+  inset: 0;
+}
+
+.columns-mosaic .columns-mosaic-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+/* text tile: solid fill, white text, vertically centred, left aligned */
+.columns-mosaic .columns-mosaic-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 17.1px 21.6px 18px;
+  background-color: var(--brand-red-overlay);
+  color: #fff;
+  text-align: left;
+}
+
+.columns-mosaic .columns-mosaic-row-dark .columns-mosaic-text {
+  background-color: var(--dark-color);
+}
+
+.columns-mosaic .columns-mosaic-text > * {
+  margin: 0;
+}
+
+.columns-mosaic .columns-mosaic-text :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 26.4px;
+  color: #fff;
+}
+
+.columns-mosaic .columns-mosaic-text p {
+  padding-top: 10.8px;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 27px;
+}
+
+.columns-mosaic .columns-mosaic-text a:any-link {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.columns-mosaic .columns-mosaic-text a:focus-visible {
+  outline: 1px solid #fff;
+}
+
+/* source o-mask--half-bp2: tiles turn 2:1 landscape from 600px */
+@media (width >= 600px) {
+  .columns-mosaic .columns-mosaic-tile {
+    aspect-ratio: 2 / 1;
+  }
+}
+
+/* source u-align-75percent-center + u-1-of-2-bp4: two columns at 75% width, square tiles */
+@media (width >= 960px) {
+  .columns-mosaic {
+    width: 75%;
+    margin: 4px auto;
+  }
+
+  .columns-mosaic .columns-mosaic-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .columns-mosaic .columns-mosaic-row-single {
+    grid-template-columns: 1fr;
+  }
+
+  .columns-mosaic .columns-mosaic-tile {
+    aspect-ratio: 1 / 1;
+  }
+
+  .columns-mosaic .columns-mosaic-row-single .columns-mosaic-tile {
+    aspect-ratio: 2 / 1;
+  }
+}
+
+/* source o-mask--half-bp5: back to 2:1 landscape tiles from 1200px */
+@media (width >= 1200px) {
+  .columns-mosaic .columns-mosaic-tile {
+    aspect-ratio: 2 / 1;
+  }
+
+  .columns-mosaic .columns-mosaic-row-single .columns-mosaic-tile {
+    aspect-ratio: 4 / 1;
+  }
+}

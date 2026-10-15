@@ -240,7 +240,7 @@ var CustomImportScript = (() => {
       }
       const contentWrap = tile.querySelector(".c-tile__content");
       if (contentWrap) {
-        [...contentWrap.querySelectorAll(":scope > p")].forEach((p) => {
+        [...contentWrap.querySelectorAll(":scope > p, :scope > .c-tile__desc > p")].forEach((p) => {
           if (cleanText2(p.textContent)) content.push(p);
         });
       }
@@ -251,7 +251,12 @@ var CustomImportScript = (() => {
       element.replaceWith(...element.childNodes);
       return;
     }
-    const block = WebImporter.Blocks.createBlock(document, { name: "cards-tile", cells });
+    const list = element.closest(".generated-list");
+    let name = "cards-tile";
+    if (list) {
+      name = list.classList.contains("u-align-75percent-center") || list.querySelector(".generated-list-centered") ? "cards-tile (related)" : "cards-tile (list)";
+    }
+    const block = WebImporter.Blocks.createBlock(document, { name, cells });
     element.replaceWith(block);
   }
 
@@ -260,8 +265,37 @@ var CustomImportScript = (() => {
   function isBlankText(el) {
     return el.textContent.replace(/[\s ]+/g, "") === "";
   }
+  function videoWatchUrl(src) {
+    let u;
+    try {
+      u = new URL(src, "https://www.cp.com/");
+    } catch (e) {
+      return "";
+    }
+    const host = u.hostname.replace(/^www\./, "");
+    if (/(^|\.)youtube(-nocookie)?\.com$/.test(host)) {
+      const m = u.pathname.match(/^\/embed\/([\w-]+)/);
+      if (m) return `https://www.youtube.com/watch?v=${m[1]}`;
+    }
+    if (host === "player.vimeo.com") {
+      const m = u.pathname.match(/^\/video\/(\d+)/);
+      if (m) return `https://vimeo.com/${m[1]}`;
+    }
+    return "";
+  }
   function transform(hookName, element, payload) {
     if (hookName === TransformHook.beforeTransform) {
+      const doc = element.ownerDocument;
+      element.querySelectorAll("iframe[src]").forEach((iframe) => {
+        const href = videoWatchUrl(iframe.getAttribute("src"));
+        if (!href) return;
+        const a = doc.createElement("a");
+        a.href = href;
+        a.textContent = href;
+        const p = doc.createElement("p");
+        p.append(a);
+        iframe.replaceWith(p);
+      });
       WebImporter.DOMUtils.remove(element, [
         "#onetrust-consent-sdk",
         "#onetrust-hide-domains",
@@ -299,6 +333,32 @@ var CustomImportScript = (() => {
       element.querySelectorAll(".paragraph.s-editor").forEach((para) => {
         if (isBlankText(para) && !para.querySelector("img, picture, table")) para.remove();
       });
+      WebImporter.DOMUtils.remove(element, [".c-breadcrumb"]);
+      const doc = element.ownerDocument;
+      element.querySelectorAll(".button a.c-button[data-target-url]").forEach((a) => {
+        const href = a.getAttribute("href") || "";
+        const target = a.getAttribute("data-target-url");
+        if ((!href || href === "#") && target) a.setAttribute("href", target);
+        if (a.closest("strong, b")) return;
+        const strong = doc.createElement("strong");
+        a.replaceWith(strong);
+        strong.append(a);
+      });
+      element.querySelectorAll("center").forEach((center) => {
+        const p = doc.createElement("p");
+        while (center.firstChild) p.append(center.firstChild);
+        center.replaceWith(p);
+      });
+      element.querySelectorAll(".c-lead > p").forEach((p) => {
+        if (isBlankText(p) || p.querySelector("em, i")) return;
+        const em = doc.createElement("em");
+        while (p.firstChild) em.append(p.firstChild);
+        p.append(em);
+      });
+      element.querySelectorAll("p, h1, h2, h3, h4, h5, h6").forEach((el) => {
+        if (el.closest("table")) return;
+        if (isBlankText(el) && !el.querySelector("img, picture, video, iframe, a")) el.remove();
+      });
       element.querySelectorAll("[onclick], [data-tms-scrolltracking], [data-tms-scrolltracking-tracked]").forEach((el) => {
         el.removeAttribute("onclick");
         el.removeAttribute("data-tms-scrolltracking");
@@ -335,6 +395,19 @@ var CustomImportScript = (() => {
     if (!srcset) return "";
     return srcset.split(",")[0].trim().split(/\s+/)[0] || "";
   }
+  function pictureSourceUrl(img) {
+    const picture = img.closest("picture");
+    if (!picture) return "";
+    const sources = [...picture.querySelectorAll("source")].map((s) => ({
+      media: s.getAttribute("media") || "",
+      // lazysizes swaps data-srcset into srcset only once in view; before
+      // that srcset may hold the GIF placeholder
+      url: [s.getAttribute("srcset"), s.getAttribute("data-srcset")].map(firstSrcsetUrl).find((u) => u && detectDynamicMediaUrl(u)) || ""
+    })).filter((s) => s.url && detectDynamicMediaUrl(s.url));
+    if (!sources.length) return "";
+    const preferred = sources.find((s) => /min-width:\s*1280px/.test(s.media)) || sources[0];
+    return preferred.url;
+  }
   function transform2(hookName, element, payload) {
     const base = payload && payload.url || "https://www.cp.com/";
     if (hookName === "beforeTransform") {
@@ -342,7 +415,12 @@ var CustomImportScript = (() => {
         const lazy = LAZY_SRC_ATTRS.map((a) => img.getAttribute(a)).find((v) => v && detectDynamicMediaUrl(v));
         const fromSrcset = firstSrcsetUrl(img.getAttribute("srcset") || img.getAttribute("data-srcset"));
         const current = img.getAttribute("src") || "";
-        if (!detectDynamicMediaUrl(current)) {
+        const fromSource = !current || current.startsWith("data:") || detectDynamicMediaUrl(current) ? pictureSourceUrl(img) : "";
+        if (fromSource) {
+          img.setAttribute("src", fromSource);
+          img.removeAttribute("srcset");
+          img.removeAttribute("data-srcset");
+        } else if (!detectDynamicMediaUrl(current)) {
           if (lazy) img.setAttribute("src", lazy);
           else if (fromSrcset && detectDynamicMediaUrl(fromSrcset)) img.setAttribute("src", fromSrcset);
         }
@@ -357,7 +435,7 @@ var CustomImportScript = (() => {
       element.querySelectorAll("img").forEach((img) => {
         const src = img.getAttribute("src") || "";
         if (!detectDynamicMediaUrl(src)) return;
-        img.setAttribute("src", toAbsolute2(src, base));
+        img.setAttribute("src", toAbsolute2(src, base).replace("$landscape400$", "$landscape800$"));
         ["srcset", "data-srcset", "sizes", "loading", ...LAZY_SRC_ATTRS].forEach((a) => img.removeAttribute(a));
         const picture = img.parentElement;
         if (picture && picture.tagName === "PICTURE") {
@@ -378,6 +456,19 @@ var CustomImportScript = (() => {
     }
     return null;
   }
+  function isLeadingContent(root, el) {
+    let node = el;
+    while (node && node !== root) {
+      let prev = node.previousSibling;
+      while (prev) {
+        if (prev.nodeType === 3 && prev.textContent.trim()) return false;
+        if (prev.nodeType === 1 && (prev.textContent.replace(/[\s ]+/g, "") || prev.querySelector("img, picture, video, iframe, table"))) return false;
+        prev = prev.previousSibling;
+      }
+      node = node.parentNode;
+    }
+    return true;
+  }
   function transform3(hookName, element, payload) {
     const sections = payload && payload.template && payload.template.sections || [];
     if (sections.length < 2) return;
@@ -388,6 +479,8 @@ var CustomImportScript = (() => {
         if (i === 0 && !section.style) continue;
         const sectionEl = querySection(element, section.selector);
         if (!sectionEl) continue;
+        const scope = sectionEl.closest("#main") || element;
+        if (!section.style && isLeadingContent(scope, sectionEl)) continue;
         const hr = doc.createElement("hr");
         if (section.style) hr.setAttribute(SECTION_MARKER_ATTR, section.id);
         sectionEl.before(hr);

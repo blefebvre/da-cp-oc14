@@ -22,8 +22,8 @@
   --heading-font-size-xxl: 35px;
   --heading-font-size-xl: 28px;
   --heading-font-size-l: 24px;
-  --heading-font-size-m: 21px;
-  --heading-font-size-s: 19px;
+  --heading-font-size-m: 24px;
+  --heading-font-size-s: 21px;
   --heading-font-size-xs: 18px;
 }
 
@@ -101,9 +101,11 @@ h2 {
   letter-spacing: -0.9px;
 }
 
+/* source subtitles are h3.u-h4: 24px at every width */
 h3 {
-  font-size: var(--heading-font-size-l);
-  letter-spacing: -0.9px;
+  font-size: var(--heading-font-size-m);
+  line-height: 1.1;
+  letter-spacing: -0.45px;
 }
 
 h4 {
@@ -179,11 +181,12 @@ button.button {
   max-width: 100%;
   margin: 0;
   border: 2px solid transparent;
-  border-radius: 2.4em;
-  padding: 0.5em 1.2em;
+  border-radius: 0;
+  padding: 10.8px 18px 14.4px;
   font: inherit;
-  font-weight: 500;
-  line-height: 1.25;
+  font-family: var(--heading-font-family);
+  font-weight: 400;
+  line-height: normal;
   text-decoration: none;
   cursor: pointer;
   overflow: hidden;
@@ -199,9 +202,9 @@ button.button:disabled {
 
 a.button.primary,
 button.button.primary {
-  border-color: var(--text-color);
-  background-color: var(--text-color);
-  color: var(--background-color);
+  border-color: var(--brand-red);
+  background-color: var(--brand-red);
+  color: #fff;
 }
 
 a.button.primary:hover,
@@ -210,7 +213,7 @@ button.button.primary:hover,
 button.button.primary:focus-visible {
   border-color: var(--dark-color);
   background-color: var(--dark-color);
-  color: var(--light-color);
+  color: #fff;
 }
 
 a.button.primary[aria-disabled="true"],
@@ -236,8 +239,8 @@ a.button.secondary:focus-visible,
 button.button.secondary:hover,
 button.button.secondary:focus-visible {
   border-color: var(--dark-color);
-  background-color: var(--light-color);
-  color: var(--dark-color);
+  background-color: var(--dark-color);
+  color: #fff;
 }
 
 a.button.secondary[aria-disabled="true"],
@@ -353,4 +356,123 @@ main .section.dark :is(h1, h2, h3, h4, h5, h6, a:any-link) {
 main .section.statement h2 {
   font-size: 28px;
   line-height: 1.1;
+}
+
+/* section: neutral grey band (source .c-row--neutral, e.g. "Our business areas") */
+main .section.neutral {
+  background-color: var(--neutral-color);
+  padding-bottom: 36px;
+}
+
+/* section: full-width content (source rows padded 3% instead of the 960px column) */
+@media (width >= 1280px) {
+  main > .section.wide > div {
+    max-width: none;
+    margin: 0;
+    padding: 0 3%;
+  }
+}
+
+/* section: centred default content (source "Related links" title box) */
+main .section.center > .default-content-wrapper {
+  text-align: center;
+}
+
+/* source generated lists / banners sit 36px under their divider (18px below on mobile) */
+main > .section:is(.neutral, .wide, .center):has(> div:last-child:not(.default-content-wrapper)) {
+  padding-bottom: 18px;
+}
+
+@media (width >= 768px) {
+  main > .section:is(.neutral, .wide, .center) {
+    padding-top: 36px;
+  }
+
+  main > .section:is(.neutral, .wide, .center):has(> div:last-child:not(.default-content-wrapper)) {
+    padding-bottom: 36px;
+  }
+}
+
+/* content pages: the page title sits below the header like the source (breadcrumb row + 54px) */
+main > .section:first-of-type:has(> .default-content-wrapper:first-child > h1:first-child) {
+  padding-top: var(--section-padding);
+}
+
+/* default content (www.cp.com .s-editor) */
+strong,
+b {
+  font-weight: 700;
+}
+
+main .default-content-wrapper img {
+  display: block;
+  width: 100%;
+}
+
+/* lead text: an italic-only paragraph (source .c-lead) */
+main .default-content-wrapper p:has(> em:only-child):not(:has(strong, a, picture)) {
+  color: var(--muted-text-color);
+  font-weight: 400;
+}
+
+/* image caption: an italic line directly under an image (source .c-image-caption) */
+main .default-content-wrapper p:has(> picture) + p:has(> em:only-child) {
+  margin: 0 0 36px;
+  color: var(--text-color);
+  font-weight: 300;
+  text-align: center;
+}
+
+/* text links inside paragraphs are underlined on the source */
+main .default-content-wrapper p > a:any-link:not(.button) {
+  text-decoration: underline;
+}
+
+/* bullet lists: red bullet, 13.5px indent */
+main .default-content-wrapper ul {
+  padding-left: 0;
+  list-style: none;
+}
+
+main .default-content-wrapper ul > li {
+  position: relative;
+  padding-left: 13.5px;
+}
+
+main .default-content-wrapper ul > li::before {
+  content: "•";
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: var(--brand-red);
+}
+
+/* link lists (every item is a single link, e.g. privacy hub, language selector) */
+main .default-content-wrapper ul:has(> li > a:only-child) {
+  margin-bottom: 36px;
+}
+
+main .default-content-wrapper ul:has(> li > a:only-child) > li {
+  padding: 5.4px 0;
+  border-bottom: 1px solid var(--divider-color);
+}
+
+main .default-content-wrapper ul:has(> li > a:only-child) > li:last-child {
+  border-bottom: 0;
+}
+
+main .default-content-wrapper ul:has(> li > a:only-child) > li::before {
+  content: none;
+}
+
+main .default-content-wrapper ul > li > a:only-child:any-link {
+  display: inline-block;
+  padding-left: 16.2px;
+  background: linear-gradient(var(--brand-red), var(--brand-red)) no-repeat 0 50% / 10px 10px;
+  color: var(--brand-red);
+  font-weight: 400;
+}
+
+main .default-content-wrapper ul > li > a:only-child:hover {
+  color: var(--brand-red);
 }

@@ -9,8 +9,7 @@
         "https://www.cp.com/en"
       ],
       "representativeUrl": "https://www.cp.com/en",
-      "description": "Chicago Pneumatic corporate homepage: division crossroad panels, statement heading, promo link tiles",
-      "urlPattern": "/*",
+      "description": "To be named in naming step",
       "blocks": [
         {
           "name": "cards-crossroad",
@@ -63,7 +62,243 @@
           ],
           "defaultContent": []
         }
+      ],
+      "urlPattern": "/*"
+    },
+    {
+      "name": "about",
+      "urls": [
+        "https://www.cp.com/en/about",
+        "https://www.cp.com/en/about/our-reach",
+        "https://www.cp.com/en/about/sustainability",
+        "https://www.cp.com/en/about/what-we-offer",
+        "https://www.cp.com/en/privacy-policy",
+        "https://www.cp.com/en/sys/in-your-country"
+      ],
+      "representativeUrl": "https://www.cp.com/en/about",
+      "description": "Chicago Pneumatic corporate content pages (About us and sub-pages, privacy hub, language selector): H1 + lead text, editorial default content, optional values mosaic, video embeds, paragraph-with-image, business-area cards, related-link tiles",
+      "blocks": [
+        {
+          "name": "embed-video",
+          "instances": [
+            ".cp-content-page > .c-parsys-divider > .c-hero",
+            ".video-external"
+          ]
+        },
+        {
+          "name": "columns-mosaic",
+          "instances": [
+            ".cp-content-page > .card-overview"
+          ]
+        },
+        {
+          "name": "columns",
+          "instances": [
+            ".paragraph-with-image"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            ".local-contact-banner .o-grid"
+          ]
+        },
+        {
+          "name": "cards-tile",
+          "instances": [
+            ".generated-list .o-grid"
+          ]
+        }
+      ],
+      "urlPattern": "/en/*",
+      "sections": [
+        {
+          "id": "s1",
+          "name": "hero-video",
+          "selector": [
+            ".cp-content-page > .c-parsys-divider:has(> .c-hero)"
+          ],
+          "style": null,
+          "blocks": [
+            "embed-video"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "s2",
+          "name": "intro",
+          "selector": [
+            ".cp-content-page > .title"
+          ],
+          "style": null,
+          "blocks": [
+            "columns",
+            "embed-video"
+          ],
+          "defaultContent": [
+            ".title h1",
+            ".paragraph h5",
+            ".paragraph p",
+            ".paragraph ul",
+            ".subtitle h3",
+            ".image picture",
+            ".link-list ul",
+            ".button a"
+          ]
+        },
+        {
+          "id": "s3",
+          "name": "values-mosaic",
+          "selector": [
+            ".cp-content-page > .card-overview"
+          ],
+          "style": null,
+          "blocks": [
+            "columns-mosaic"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "s4",
+          "name": "after-mosaic",
+          "selector": [
+            ".cp-content-page > .card-overview + *"
+          ],
+          "style": null,
+          "blocks": [
+            "embed-video"
+          ],
+          "defaultContent": [
+            ".subtitle h3",
+            ".paragraph p"
+          ]
+        },
+        {
+          "id": "s5",
+          "name": "business-areas",
+          "selector": [
+            ".cp-content-page > .local-contact-banner"
+          ],
+          "style": "neutral, wide",
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": [
+            ".local-contact-banner h3"
+          ]
+        },
+        {
+          "id": "s6",
+          "name": "more-links",
+          "selector": [
+            ".cp-content-page > .c-row--divider:has(> .generated-list:not(.u-align-75percent-center))"
+          ],
+          "style": "wide",
+          "blocks": [
+            "cards-tile"
+          ],
+          "defaultContent": [
+            ".title-box h4"
+          ]
+        },
+        {
+          "id": "s7",
+          "name": "related-links",
+          "selector": [
+            ".cp-content-page > .c-row--divider:has(> .generated-list.u-align-75percent-center)"
+          ],
+          "style": "center",
+          "blocks": [
+            "cards-tile"
+          ],
+          "defaultContent": [
+            ".title-box h4"
+          ]
+        }
       ]
+    },
+    {
+      "name": "about-2",
+      "urls": [
+        "https://www.cp.com/en/about/our-legacy",
+        "https://www.cp.com/en/careers"
+      ],
+      "representativeUrl": "https://www.cp.com/en/about/our-legacy",
+      "description": "To be named in naming step",
+      "blocks": [],
+      "urlPattern": "/en/*"
+    },
+    {
+      "name": "careers",
+      "urls": [
+        "https://www.cp.com/en/careers/job-overview"
+      ],
+      "representativeUrl": "https://www.cp.com/en/careers/job-overview",
+      "description": "To be named in naming step",
+      "blocks": [],
+      "urlPattern": "/en/careers/*"
+    },
+    {
+      "name": "careers-2",
+      "urls": [
+        "https://www.cp.com/en/careers/our-culture"
+      ],
+      "representativeUrl": "https://www.cp.com/en/careers/our-culture",
+      "description": "To be named in naming step",
+      "blocks": [],
+      "urlPattern": "/en/careers/*"
+    },
+    {
+      "name": "privacy-policy",
+      "urls": [
+        "https://www.cp.com/en/privacy-policy/cookie-policy",
+        "https://www.cp.com/en/privacy-policy/privacy-notice"
+      ],
+      "representativeUrl": "https://www.cp.com/en/privacy-policy/cookie-policy",
+      "description": "To be named in naming step",
+      "blocks": [],
+      "urlPattern": "/en/privacy-policy/*"
+    },
+    {
+      "name": "privacy-policy-2",
+      "urls": [
+        "https://www.cp.com/en/privacy-policy/country-specific",
+        "https://www.cp.com/en/privacy-policy/legal-notice"
+      ],
+      "representativeUrl": "https://www.cp.com/en/privacy-policy/country-specific",
+      "description": "To be named in naming step",
+      "blocks": [],
+      "urlPattern": "/en/privacy-policy/*"
+    },
+    {
+      "name": "shop-online",
+      "urls": [
+        "https://www.cp.com/en/shop-online"
+      ],
+      "representativeUrl": "https://www.cp.com/en/shop-online",
+      "description": "To be named in naming step",
+      "blocks": [],
+      "urlPattern": "/en/*"
+    },
+    {
+      "name": "sys",
+      "urls": [
+        "https://www.cp.com/en/sys/sitemap"
+      ],
+      "representativeUrl": "https://www.cp.com/en/sys/sitemap",
+      "description": "To be named in naming step",
+      "blocks": [],
+      "urlPattern": "/en/sys/*"
+    },
+    {
+      "name": "vulnerability-incident-reporting",
+      "urls": [
+        "https://www.cp.com/en/vulnerability-incident-reporting"
+      ],
+      "representativeUrl": "https://www.cp.com/en/vulnerability-incident-reporting",
+      "description": "To be named in naming step",
+      "blocks": [],
+      "urlPattern": "/en/*"
     }
   ]
 }
