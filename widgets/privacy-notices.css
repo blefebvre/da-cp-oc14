@@ -1,0 +1,110 @@
+/* privacy-notices widget: OneTrust notice bundle selector (source select#<name>Dropdown +
+ * button#otnotice-bundle-button on www.cp.com/en/privacy-policy/privacy-notice):
+ * 407px grey select stacked over a red "Update" button; a loaded notice uses the
+ * same typography as the authored notice (section style "notice"). */
+.privacy-notices {
+  margin: 0 0 64px;
+}
+
+.privacy-notices .privacy-notices-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+  margin: 0;
+}
+
+.privacy-notices .privacy-notices-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.privacy-notices .privacy-notices-select {
+  box-sizing: border-box;
+  width: 407px;
+  max-width: 100%;
+  height: 35px;
+  padding: 5px;
+  border: 1px solid #d3d3d3;
+  border-radius: 0;
+  background-color: #efefef;
+  color: var(--text-color);
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.privacy-notices .privacy-notices-submit {
+  margin-left: 1px;
+  padding: 11px 30px;
+  border-width: 0;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.privacy-notices[aria-busy="true"] .privacy-notices-submit {
+  cursor: progress;
+  opacity: 0.7;
+}
+
+/* loaded notice (OneTrust .otnotice-content markup) */
+.privacy-notices .privacy-notices-panel {
+  margin-top: 64px;
+  padding: 0 18px;
+}
+
+.privacy-notices .privacy-notices-panel[hidden] {
+  display: none;
+}
+
+.privacy-notices .privacy-notices-panel :is(h1, h2, h3, h4) {
+  color: var(--brand-red);
+  letter-spacing: normal;
+}
+
+.privacy-notices .privacy-notices-panel h2 {
+  font-size: 35px;
+  line-height: 1;
+}
+
+.privacy-notices .privacy-notices-panel h3 {
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+.privacy-notices .privacy-notices-panel :is(p, ul, ol, table) + :is(h2, h3) {
+  margin-top: 45px;
+}
+
+.privacy-notices .privacy-notices-panel p {
+  color: #0d0d0d;
+}
+
+.privacy-notices .privacy-notices-panel :is(ul, ol) {
+  padding: 0 45px;
+}
+
+.privacy-notices .privacy-notices-panel li {
+  margin-bottom: 9px;
+}
+
+.privacy-notices .privacy-notices-panel p > a:any-link {
+  text-decoration: underline;
+}
+
+.privacy-notices .privacy-notices-panel table {
+  width: 100%;
+  margin-bottom: 18px;
+  border-collapse: collapse;
+}
+
+.privacy-notices .privacy-notices-panel :is(th, td) {
+  padding: 8px;
+  border: 1px solid var(--divider-color);
+  text-align: left;
+  vertical-align: top;
+}

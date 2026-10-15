@@ -420,9 +420,49 @@
         "https://www.cp.com/en/privacy-policy/privacy-notice"
       ],
       "representativeUrl": "https://www.cp.com/en/privacy-policy/cookie-policy",
-      "description": "To be named in naming step",
-      "blocks": [],
-      "urlPattern": "/en/privacy-policy/*"
+      "description": "Chicago Pneumatic legal notice page rendered from OneTrust (cookie policy, privacy notice): notice title (promoted to h1), long-form headings/paragraphs/lists as default content; OneTrust cookie list -> widget (cookie-list); notice bundle selector -> widget (privacy-notices); privacy-officer contact paragraph",
+      "blocks": [
+        {
+          "name": "widget",
+          "instances": [
+            "#ot-sdk-cookie-policy",
+            ".privacy-policy select:not(#otnotice-language-dropdown)"
+          ]
+        }
+      ],
+      "urlPattern": "/en/privacy-policy/*",
+      "sections": [
+        {
+          "id": "s1",
+          "name": "notice",
+          "selector": [
+            ".cp-content-page > .privacy-policy-secure"
+          ],
+          "style": "notice",
+          "blocks": [
+            "widget"
+          ],
+          "defaultContent": [
+            ".otnotice-section-header",
+            ".otnotice-section-content h2",
+            ".otnotice-section-content h3",
+            ".otnotice-section-content p",
+            ".otnotice-section-content ul"
+          ]
+        },
+        {
+          "id": "s2",
+          "name": "contact",
+          "selector": [
+            ".cp-content-page > .privacy-policy-secure ~ .paragraph"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            ".paragraph p"
+          ]
+        }
+      ]
     },
     {
       "name": "privacy-policy-2",
@@ -431,9 +471,48 @@
         "https://www.cp.com/en/privacy-policy/legal-notice"
       ],
       "representativeUrl": "https://www.cp.com/en/privacy-policy/country-specific",
-      "description": "To be named in naming step",
-      "blocks": [],
-      "urlPattern": "/en/privacy-policy/*"
+      "description": "Chicago Pneumatic legal notice page rendered from a OneTrust notice bundle (country-specific notices, legal notice): bundle selector -> widget (privacy-notices); default notice (title promoted to h1, long-form headings/paragraphs/lists) as default content; privacy-officer contact paragraph",
+      "blocks": [
+        {
+          "name": "widget",
+          "instances": [
+            ".privacy-policy select:not(#otnotice-language-dropdown)"
+          ]
+        }
+      ],
+      "urlPattern": "/en/privacy-policy/*",
+      "sections": [
+        {
+          "id": "s1",
+          "name": "notice",
+          "selector": [
+            ".cp-content-page > .privacy-policy-secure"
+          ],
+          "style": "notice",
+          "blocks": [
+            "widget"
+          ],
+          "defaultContent": [
+            ".otnotice-section-header",
+            ".otnotice-section-content h2",
+            ".otnotice-section-content h3",
+            ".otnotice-section-content p",
+            ".otnotice-section-content ul"
+          ]
+        },
+        {
+          "id": "s2",
+          "name": "contact",
+          "selector": [
+            ".cp-content-page > .privacy-policy-secure ~ .paragraph"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            ".paragraph p"
+          ]
+        }
+      ]
     },
     {
       "name": "shop-online",

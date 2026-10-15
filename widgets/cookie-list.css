@@ -1,0 +1,133 @@
+/* cookie-list widget: OneTrust cookie list (source #ot-sdk-cookie-policy-v2)
+ * Proportions from the OneTrust cookie policy v2 styles on www.cp.com/en/privacy-policy/cookie-policy:
+ * 30px title, 21px group headings, bordered table with 21px red header cells;
+ * stacked "label: value" rows on small screens. Colours stay on brand tokens. */
+
+/* 45px: the source's <p><br></p> spacers around the list */
+.cookie-list {
+  margin: 45px 0;
+  padding: 0 18px;
+}
+
+.cookie-list .cookie-list-title {
+  margin: 0 0 36px;
+  font-family: var(--body-font-family);
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: normal;
+  color: var(--brand-red);
+}
+
+.cookie-list .cookie-list-desc,
+.cookie-list .cookie-list-group-desc {
+  margin: 0 0 18px;
+  padding: 21.6px 0 18px;
+  color: #0d0d0d;
+  line-height: 27px;
+}
+
+.cookie-list .cookie-list-group {
+  margin: 0 0 36px;
+}
+
+.cookie-list .cookie-list-group h4 {
+  margin: 0 0 12.6px;
+  font-family: var(--body-font-family);
+  font-size: 21px;
+  font-weight: 400;
+  line-height: 27px;
+  letter-spacing: normal;
+  color: var(--brand-red);
+}
+
+.cookie-list table {
+  width: 100%;
+  font-size: var(--body-font-size-m);
+  border: 1px solid #d7d7d7;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.cookie-list caption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.cookie-list thead {
+  background-color: #f6f6f4;
+}
+
+.cookie-list :is(th, td) + :is(th, td) {
+  border-left: 1px solid #d7d7d7;
+}
+
+.cookie-list th {
+  padding: 12px 15px;
+  border-bottom: 1px solid #d7d7d7;
+  background-color: #f8f8f8;
+  font-size: 21px;
+  font-weight: 400;
+  line-height: 27px;
+  color: var(--brand-red);
+  vertical-align: top;
+}
+
+.cookie-list td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #d7d7d7;
+  color: #0d0d0d;
+  font-weight: 300;
+  line-height: 27px;
+  vertical-align: top;
+  overflow-wrap: break-word;
+}
+
+.cookie-list td a:any-link {
+  font-weight: 400;
+  color: var(--text-color);
+}
+
+.cookie-list td a:hover {
+  color: var(--link-hover-color);
+}
+
+@media (width <= 530px) {
+  .cookie-list {
+    padding: 0 38px;
+  }
+
+  .cookie-list table,
+  .cookie-list tbody,
+  .cookie-list tr,
+  .cookie-list td {
+    display: block;
+  }
+
+  .cookie-list table {
+    border-radius: 4px;
+  }
+
+  .cookie-list thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .cookie-list td + td {
+    border-left: 0;
+  }
+
+  .cookie-list td::before {
+    content: attr(data-label);
+    padding-right: 8px;
+    font-weight: 700;
+    overflow-wrap: normal;
+  }
+}
