@@ -296,6 +296,12 @@ main img {
 }
 
 /* sections */
+
+/* sections left empty once page metadata is extracted */
+main > .section:not(:has(> *)) {
+  display: none;
+}
+
 main > .section {
   margin: 0;
   padding: var(--section-padding) 0 0;
