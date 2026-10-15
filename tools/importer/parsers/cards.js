@@ -40,7 +40,11 @@ function parseJobs(element, document) {
     const a = title.querySelector('a[href]');
     if (a) {
       const link = document.createElement('a');
-      link.href = a.getAttribute('href');
+      // The job feed builds detail links relative to the current page
+      // (/en/careers/our-culture/job-overview/job-detail/... -> 404 on the source);
+      // normalise them to the canonical /en/careers/job-overview/job-detail/... path.
+      link.href = (a.getAttribute('href') || '')
+        .replace(/^(\/[a-z]{2}(?:-[a-z]{2})?\/careers)\/(?:[^/]+\/)+?(job-overview\/job-detail\/)/, '$1/$2');
       link.textContent = cleanText(a.textContent);
       h.append(link);
     } else {

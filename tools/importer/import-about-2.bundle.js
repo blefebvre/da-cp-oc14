@@ -187,7 +187,7 @@ var CustomImportScript = (() => {
       const a = title.querySelector("a[href]");
       if (a) {
         const link = document.createElement("a");
-        link.href = a.getAttribute("href");
+        link.href = (a.getAttribute("href") || "").replace(/^(\/[a-z]{2}(?:-[a-z]{2})?\/careers)\/(?:[^/]+\/)+?(job-overview\/job-detail\/)/, "$1/$2");
         link.textContent = cleanText2(a.textContent);
         h.append(link);
       } else {

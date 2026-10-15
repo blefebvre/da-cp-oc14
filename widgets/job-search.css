@@ -1,0 +1,100 @@
+/* job-search widget: search band (keyword, location, submit)
+ * Layout/proportions from the Atlas Copco Group .searchwell band
+ * (30px 45px padding + 15px column gutters, 5/5/2 columns, 34px inputs,
+ * 37px button); colours and fonts stay on Chicago Pneumatic brand tokens. */
+.job-search {
+  margin: 24px 0;
+  padding: 30px var(--gutter);
+  background-color: var(--light-color);
+}
+
+.job-search .job-search-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 0;
+}
+
+.job-search .job-search-field {
+  position: relative;
+  min-width: 0;
+}
+
+.job-search .job-search-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* icon cell: 38px wide addon, 14px glyph, 12px from the left */
+.job-search .job-search-field::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  width: 14px;
+  height: 14px;
+  transform: translateY(-50%);
+  background-color: var(--muted-text-color);
+  mask: var(--job-search-icon) center / contain no-repeat;
+  pointer-events: none;
+}
+
+.job-search .job-search-keyword {
+  --job-search-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3.5'%3E%3Ccircle cx='9.5' cy='9.5' r='7'/%3E%3Cpath d='M14.5 14.5l7.5 7.5'/%3E%3C/svg%3E");
+}
+
+.job-search .job-search-location {
+  --job-search-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z'/%3E%3C/svg%3E");
+}
+
+.job-search input[type="search"],
+.job-search input[type="text"] {
+  box-sizing: border-box;
+  width: 100%;
+  height: 34px;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 0 12px 0 50px;
+  background-color: var(--background-color);
+  box-shadow: inset 0 1px 1px rgb(0 0 0 / 7.5%);
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs);
+  line-height: 20px;
+  appearance: none;
+}
+
+.job-search input::placeholder {
+  color: var(--muted-text-color);
+  opacity: 1;
+}
+
+.job-search input:focus-visible {
+  outline: 2px solid var(--dark-color);
+  outline-offset: -2px;
+}
+
+.job-search .job-search-submit {
+  width: 100%;
+  min-height: 37px;
+  padding: 0 12px;
+  font-size: var(--body-font-size-s);
+}
+
+@media (width >= 900px) {
+  .job-search {
+    padding: 30px 60px;
+  }
+
+  .job-search .job-search-form {
+    display: grid;
+    grid-template-columns: 5fr 5fr minmax(max-content, 2fr);
+    align-items: start;
+    gap: 30px;
+  }
+}

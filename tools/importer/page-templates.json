@@ -308,9 +308,32 @@
         "https://www.cp.com/en/careers/job-overview"
       ],
       "representativeUrl": "https://www.cp.com/en/careers/job-overview",
-      "description": "To be named in naming step",
-      "blocks": [],
-      "urlPattern": "/en/careers/*"
+      "description": "Chicago Pneumatic job openings (/en/careers/job-overview): cp.com 301-redirects to the Atlas Copco Group SuccessFactors job search filtered to CP. Migrated as an EDS page: H1 + intro, job-search widget (keyword/location form that hands off to the external search), CTA to all CP jobs and job-alerts link",
+      "blocks": [
+        {
+          "name": "widget",
+          "instances": [
+            "#search-wrapper .searchwell"
+          ]
+        }
+      ],
+      "urlPattern": "/en/careers/*",
+      "sections": [
+        {
+          "id": "s1",
+          "name": "job-search",
+          "selector": [
+            ".innershell"
+          ],
+          "style": null,
+          "blocks": [
+            "widget"
+          ],
+          "defaultContent": [
+            ".JobsSearch_createAlertBtn__7xEYa"
+          ]
+        }
+      ]
     },
     {
       "name": "careers-2",
@@ -318,9 +341,77 @@
         "https://www.cp.com/en/careers/our-culture"
       ],
       "representativeUrl": "https://www.cp.com/en/careers/our-culture",
-      "description": "To be named in naming step",
-      "blocks": [],
-      "urlPattern": "/en/careers/*"
+      "description": "Chicago Pneumatic careers editorial page (Our culture): H1 + italic lead, hero image, H3 sub-headings with paragraphs, paragraph-with-image (text | image columns), recently posted jobs banner (cards jobs + accent CTA), related-link tiles",
+      "blocks": [
+        {
+          "name": "columns",
+          "instances": [
+            ".paragraph-with-image"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            ".cp-content-page > .recent-jobs-banner > .o-grid"
+          ]
+        },
+        {
+          "name": "cards-tile",
+          "instances": [
+            ".generated-list .o-grid"
+          ]
+        }
+      ],
+      "urlPattern": "/en/careers/*",
+      "sections": [
+        {
+          "id": "s1",
+          "name": "intro",
+          "selector": [
+            ".cp-content-page > .title"
+          ],
+          "style": null,
+          "blocks": [
+            "columns"
+          ],
+          "defaultContent": [
+            ".title h1",
+            ".paragraph .c-lead p",
+            ".image picture",
+            ".subtitle h3",
+            ".paragraph p"
+          ]
+        },
+        {
+          "id": "s2",
+          "name": "recent-jobs",
+          "selector": [
+            ".cp-content-page > .recent-jobs-banner"
+          ],
+          "style": "wide, subdued",
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": [
+            ".recent-jobs-banner h4",
+            ".recent-jobs-banner > p a.c-button"
+          ]
+        },
+        {
+          "id": "s3",
+          "name": "related-links",
+          "selector": [
+            ".cp-content-page > .c-row--divider:has(> .generated-list.u-align-75percent-center)"
+          ],
+          "style": "center",
+          "blocks": [
+            "cards-tile"
+          ],
+          "defaultContent": [
+            ".title-box h4"
+          ]
+        }
+      ]
     },
     {
       "name": "privacy-policy",
