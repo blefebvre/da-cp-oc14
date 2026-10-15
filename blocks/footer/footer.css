@@ -1,20 +1,161 @@
+/* footer: white, 22.5px spacer band, link columns and legal row separated by 1px dividers */
 footer {
-  background-color: var(--light-color);
-  font-size: var(--body-font-size-xs);
+  padding-top: 22.5px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: var(--body-font-family);
 }
 
-footer .footer > div {
-  margin: auto;
-  max-width: 1200px;
-  padding: 40px 24px 24px;
-}
-
-footer .footer p {
+footer .footer ul {
+  list-style: none;
   margin: 0;
+  padding: 0;
+}
+
+footer .footer a:any-link {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+/* link columns */
+footer .footer-columns {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 66.5px;
+  border-top: 1px solid var(--divider-color);
+  padding: 40.5px var(--gutter) 74px;
+}
+
+footer .footer-column h6 {
+  margin: 0 0 9px;
+  color: var(--brand-red);
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24.3px;
+  letter-spacing: normal;
+}
+
+footer .footer-column h6 a:any-link {
+  color: var(--brand-red);
+}
+
+footer .footer-column h6 a:hover,
+footer .footer-column h6 a:focus-visible {
+  color: var(--brand-red);
+  text-decoration: underline;
+}
+
+footer .footer-column li {
+  padding: 1.8px 0;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 27px;
+}
+
+footer .footer-column li a:any-link {
+  position: relative;
+  display: inline-block;
+  padding-left: 16.2px;
+}
+
+/* square bullet (internal) / arrow (external), both follow the link colour */
+footer .footer-column li a::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 3px;
+  width: 9px;
+  height: 9px;
+  background-color: currentcolor;
+}
+
+footer .footer-column li a.footer-link-external::before {
+  top: 6px;
+  left: 0;
+  width: 14px;
+  height: 16px;
+  mask: url('/icons/external.svg') no-repeat center / contain;
+}
+
+footer .footer-column li a:hover,
+footer .footer-column li a:focus-visible {
+  color: var(--brand-red);
+}
+
+/* legal row */
+footer .footer-legal {
+  border-top: 1px solid var(--divider-color);
+  border-bottom: 1px solid var(--divider-color);
+  padding: 64px var(--gutter) 12px;
+}
+
+footer .footer-legal ul {
+  display: flex;
+  flex-direction: column;
+}
+
+footer .footer-legal li {
+  margin: 0 0 9px;
+  color: var(--muted-text-color);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 21.6px;
+}
+
+footer .footer-legal li a:any-link {
+  color: var(--muted-text-color);
+  font-weight: 400;
+}
+
+footer .footer-legal li a:hover,
+footer .footer-legal li a:focus-visible {
+  color: #0d0d0d;
+}
+
+footer .footer-cookie-settings {
+  margin: 0;
+  border: 0;
+  padding: 12.8px 32px;
+  background: none;
+  color: var(--muted-text-color);
+  font: inherit;
+  font-weight: 400;
+  cursor: pointer;
 }
 
 @media (width >= 900px) {
-  footer .footer > div {
-    padding: 40px 32px 24px;
+  footer .footer-columns {
+    grid-template-columns: repeat(7, 1fr);
+    column-gap: 43.2px;
+    padding: 40.5px 43.2px 49px;
+  }
+
+  /* columns alternate one and two grid units, as on the source */
+  footer .footer-column:nth-child(even) {
+    grid-column: span 2;
+  }
+
+  footer .footer-legal {
+    padding: 22px 43.2px 44px;
+  }
+
+  footer .footer-legal ul {
+    flex-flow: row wrap;
+    justify-content: flex-end;
+  }
+
+  footer .footer-legal li {
+    margin: 7.2px 9px 7.2px 0;
+  }
+
+  footer .footer-legal li + li {
+    border-left: 1px dotted #c0c3c3;
+    padding-left: 9px;
+  }
+
+  /* the cookie button keeps its padding but must not grow the row */
+  footer .footer-cookie-settings {
+    margin: -12.8px 0;
   }
 }
