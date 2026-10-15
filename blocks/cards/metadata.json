@@ -1,0 +1,32 @@
+{
+  "variantName": "cards",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "normal",
+    "purpose": "image-cards",
+    "imagePattern": "image-top",
+    "structure": "image + heading + text + optional 'Read more' button",
+    "layout": "grid 1 / 2 / 4 columns (<720 / 720-1399 / >=1400px), 4:3 image over a white shadowed tile"
+  },
+  "contentPattern": "One row per card: cell 1 = image; cell 2 = heading, paragraph(s), optional button link. Option jobs: one row per job, single cell = H6 > a (title), p (category), p (date).",
+  "usage": {
+    "pagesUsing": [
+      "https://www.cp.com/en/about/what-we-offer",
+      "https://www.cp.com/en/careers"
+    ],
+    "reuseCount": 2,
+    "lastUsed": "2026-10-15"
+  },
+  "options": [
+    {
+      "class": "jobs",
+      "label": "Jobs",
+      "description": "Text-only job list: linked H6 title (18px, weight 600), grey category and date captions; no image, border, shadow or background. 2 columns, 4 from 720px. Use in a section with style 'wide' under a heading. Source: www.cp.com/en/careers .recent-jobs-banner."
+    }
+  ],
+  "memberVariantIds": [
+    "cards"
+  ]
+}

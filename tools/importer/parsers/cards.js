@@ -11,12 +11,65 @@
  *   .local-contact-banner .o-grid > .o-grid__item > .local-contact-card
  *     > .o-mask picture > img          (Scene7 src resolved by cp-dm-images)
  *     > .c-tile [data-mh="content"] > h5, p, ul.o-list (empty), p.local-contact-card-link > a.c-button
+ *
+ * Option "jobs" (https://www.cp.com/en/careers "These are our most recently posted jobs"):
+ *   .recent-jobs-banner > .o-grid > .o-grid__item
+ *     first item: h4 banner title only -> kept as default content above the block
+ *     job items:  h6 > a (title + link), p.c-caption (category), p.c-caption (date)
+ *   -> 'cards (jobs)', one row per job, single cell [ h6 > a, p, p ]
+ *   (static snapshot of the job feed at import time)
  */
 function cleanText(text) {
   return (text || '').replace(/\s+/g, ' ').trim();
 }
 
+function parseJobs(element, document) {
+  const before = [];
+  const rows = [];
+  [...element.querySelectorAll(':scope > .o-grid__item, :scope > .o-grid__item-fix > .o-grid__item')].forEach((item) => {
+    const title = item.querySelector('h6, h5');
+    if (!title) {
+      // banner heading item -> default content
+      item.querySelectorAll('h1, h2, h3, h4, h5, h6, p').forEach((el) => {
+        if (cleanText(el.textContent)) before.push(el);
+      });
+      return;
+    }
+    const content = [];
+    const h = document.createElement(title.tagName.toLowerCase());
+    const a = title.querySelector('a[href]');
+    if (a) {
+      const link = document.createElement('a');
+      link.href = a.getAttribute('href');
+      link.textContent = cleanText(a.textContent);
+      h.append(link);
+    } else {
+      h.textContent = cleanText(title.textContent);
+    }
+    content.push(h);
+    item.querySelectorAll('p').forEach((pEl) => {
+      const text = cleanText(pEl.textContent);
+      if (!text) return;
+      const para = document.createElement('p');
+      para.textContent = text;
+      content.push(para);
+    });
+    rows.push([content]);
+  });
+  if (!rows.length) {
+    element.replaceWith(...element.childNodes);
+    return;
+  }
+  const block = WebImporter.Blocks.createBlock(document, { name: 'cards (jobs)', cells: rows });
+  element.replaceWith(...before, block);
+}
+
 export default function parse(element, { document }) {
+  if (element.closest('.recent-jobs-banner')) {
+    parseJobs(element, document);
+    return;
+  }
+
   let cards = [...element.querySelectorAll('.local-contact-card')];
   if (!cards.length) cards = [...element.querySelectorAll('.o-grid__item')];
 

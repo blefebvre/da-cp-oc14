@@ -14,9 +14,10 @@
   "usage": {
     "pagesUsing": [
       "https://www.cp.com/en",
-      "https://www.cp.com/en/about"
+      "https://www.cp.com/en/about",
+      "https://www.cp.com/en/about/our-legacy"
     ],
-    "reuseCount": 2,
+    "reuseCount": 3,
     "lastUsed": "2026-10-15"
   },
   "options": [
@@ -29,6 +30,11 @@
       "class": "list",
       "label": "List",
       "description": "Black caption bar, left-aligned titles, 4:3 tiles 3 per row at full section width (use with section style 'wide'; 1 / 2 / 3 per row at <520 / 520-959 / >=960px); description hidden, revealed on hover from 720px. Source: www.cp.com/en/about/sustainability 'More on sustainability' generated list."
+    },
+    {
+      "class": "gallery",
+      "label": "Gallery",
+      "description": "Full-bleed photo masonry with unlinked H6 captions in the red bar. 9-tile rhythm: tiles 9n+1, 9n+5, 9n+7 are wide (2:1, span 2 columns), the rest square; 1 column (<720), 2 columns (720-1139; all square 960-1139), 4 columns (>=1140). A tile whose body is only a YouTube/Vimeo link becomes a video tile (play icon, opens the video in a dialog). Source: www.cp.com/en/about/our-legacy .card-overview."
     }
   ],
   "memberVariantIds": [

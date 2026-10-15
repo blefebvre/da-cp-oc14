@@ -86,3 +86,67 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
+
+/* ------------------------------------------------------------------
+ * Option "jobs": text-only job list (www.cp.com .recent-jobs-banner)
+ * linked title + category + date; 2 columns, 4 from 720px; no tile
+ * ------------------------------------------------------------------ */
+
+/* source: h4 margin 27px above; item margin-bottom 9px (+ date margin 9px) between rows;
+ * grid margin-bottom 18px + item 9px below (collapses with the button paragraph's 12px) */
+.cards.jobs > ul {
+  margin: 27px 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px 43.2px;
+}
+
+.cards.jobs .cards-card-body {
+  border: 0;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.cards.jobs .cards-card-body :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0 0 9px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24.3px;
+  color: var(--text-color);
+  overflow-wrap: anywhere;
+}
+
+.cards.jobs .cards-card-body :is(h1, h2, h3, h4, h5, h6) a:any-link {
+  color: inherit;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.cards.jobs .cards-card-body :is(h1, h2, h3, h4, h5, h6) a:is(:hover, :focus-visible) {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.cards.jobs .cards-card-body p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 21.6px;
+  color: rgb(158 154 154);
+}
+
+.cards.jobs .cards-card-body > p:last-child {
+  margin-bottom: 9px;
+}
+
+@media (width >= 720px) {
+  .cards.jobs > ul {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (width >= 1140px) {
+  .cards.jobs > ul {
+    column-gap: 86.4px;
+  }
+}

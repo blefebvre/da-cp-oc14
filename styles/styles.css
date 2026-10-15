@@ -254,20 +254,27 @@ button.button.secondary:disabled:focus-visible {
   color: var(--dark-color);
 }
 
-/* high-impact call-to-action */
+/* high-impact call-to-action: red outlined button (source .c-button--ghost-positive) */
 a.button.accent,
 button.button.accent {
-  border-color: var(--link-color);
-  background-color: var(--link-color);
-  color: var(--background-color);
+  border-color: var(--brand-red);
+  background-color: transparent;
+  color: var(--brand-red);
 }
 
 a.button.accent:hover,
 a.button.accent:focus-visible,
 button.button.accent:hover,
 button.button.accent:focus-visible {
-  border-color: var(--link-hover-color);
-  background-color: var(--link-hover-color);
+  border-color: var(--brand-red);
+  background-color: transparent;
+  color: var(--brand-red);
+}
+
+a.button.accent:focus-visible,
+button.button.accent:focus-visible {
+  outline: 2px solid var(--brand-red);
+  outline-offset: 2px;
 }
 
 a.button.accent[aria-disabled="true"],
@@ -378,6 +385,11 @@ main .section.center > .default-content-wrapper {
   text-align: center;
 }
 
+/* section: subdued (grey) headings (source .u-color-neutral-light titles, e.g. "These are our most recently posted jobs") */
+main .section.subdued > .default-content-wrapper :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--muted-text-color);
+}
+
 /* source generated lists / banners sit 36px under their divider (18px below on mobile) */
 main > .section:is(.neutral, .wide, .center):has(> div:last-child:not(.default-content-wrapper)) {
   padding-bottom: 18px;
@@ -407,6 +419,11 @@ b {
 main .default-content-wrapper img {
   display: block;
   width: 100%;
+}
+
+/* paragraphs inside (loose) list items keep the tight list rhythm */
+main .default-content-wrapper li > p {
+  margin: 0;
 }
 
 /* lead text: an italic-only paragraph (source .c-lead) */

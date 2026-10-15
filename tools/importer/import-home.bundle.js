@@ -198,9 +198,27 @@ var CustomImportScript = (() => {
   function cleanText2(text) {
     return (text || "").replace(/\s+/g, " ").trim();
   }
+  var VIDEO_LINK = 'a[href*="youtube.com/watch"], a[href*="youtu.be/"], a[href*="vimeo.com/"]';
+  function findVideoPopup(tile, element, document) {
+    const ref = tile.getAttribute("data-mfp-src");
+    let popup = null;
+    if (ref && ref.startsWith("#")) {
+      try {
+        popup = element.querySelector(ref) || document.querySelector(ref);
+      } catch (e) {
+        popup = null;
+      }
+    }
+    if (!popup) {
+      const holder = tile.closest(".o-grid__item-fix") || tile.parentElement && tile.parentElement.parentElement;
+      popup = holder && holder.querySelector(".mfp-container");
+    }
+    return popup;
+  }
   function parse2(element, { document }) {
     let tiles = [...element.querySelectorAll(".c-tile")];
     if (!tiles.length) tiles = [...element.querySelectorAll(".o-grid__item")];
+    const isGallery = !!element.closest(".card-overview") && !!element.querySelector('.o-grid__item[class*="u-1-of-4"]');
     const cells = [];
     tiles.forEach((tile) => {
       const imageCell = [];
@@ -208,7 +226,8 @@ var CustomImportScript = (() => {
       let img = imgWrap && imgWrap.querySelector("img") || tile.querySelector("img");
       if (!img && imgWrap) {
         const renditions = [...imgWrap.attributes].filter((a) => /^data-imgsrc-\d+$/.test(a.name) && a.value).map((a) => ({ w: parseInt(a.name.split("-").pop(), 10), src: a.value.trim() })).sort((a, b) => a.w - b.w);
-        const pick = renditions.find((r) => r.w === 600) || renditions.find((r) => r.w >= 600) || renditions[renditions.length - 1];
+        const preferred = isGallery ? 800 : 600;
+        const pick = renditions.find((r) => r.w === preferred) || renditions.find((r) => r.w >= preferred) || renditions[renditions.length - 1];
         if (pick) {
           img = document.createElement("img");
           img.src = pick.src.startsWith("//") ? `https:${pick.src}` : pick.src;
@@ -222,13 +241,21 @@ var CustomImportScript = (() => {
         imageCell.push(img);
       }
       const content = [];
-      const titleEl = tile.querySelector(".c-tile__title") || tile.querySelector("h2, h3, h4, h5");
+      let titleEl = tile.querySelector(".c-tile__title") || tile.querySelector("h2, h3, h4, h5");
+      let titleTag = "h4";
+      if (isGallery && !cleanText2(titleEl && titleEl.textContent)) {
+        const caption = [...tile.querySelectorAll("h1, h2, h3, h4, h5, h6")].find((h) => cleanText2(h.textContent));
+        if (caption) {
+          titleEl = caption;
+          titleTag = caption.tagName.toLowerCase();
+        }
+      }
       const titleText = cleanText2(titleEl && titleEl.textContent);
       const link = titleEl && titleEl.querySelector("a[href]") || tile.querySelector("a.js-blocklink__source[href]") || tile.closest("a[href]");
       if (titleText) {
-        const h4 = document.createElement("h4");
+        const h4 = document.createElement(titleTag);
         const href = link && link.getAttribute("href");
-        if (href && !/^javascript:/i.test(href)) {
+        if (href && !/^javascript:/i.test(href) && !(isGallery && href === "#")) {
           const a = document.createElement("a");
           a.href = href;
           a.textContent = titleText;
@@ -237,6 +264,19 @@ var CustomImportScript = (() => {
           h4.textContent = titleText;
         }
         content.push(h4);
+      }
+      if (isGallery && !titleText && tile.classList.contains("js-modal-video")) {
+        const popup = findVideoPopup(tile, element, document);
+        const videoLink = popup && popup.querySelector(VIDEO_LINK);
+        if (videoLink) {
+          const p = document.createElement("p");
+          const a = document.createElement("a");
+          a.href = videoLink.getAttribute("href");
+          const popupTitle = popup.querySelector(".mfp-title");
+          a.textContent = cleanText2(popupTitle && popupTitle.textContent) || a.href;
+          p.append(a);
+          content.push(p);
+        }
       }
       const contentWrap = tile.querySelector(".c-tile__content");
       if (contentWrap) {
@@ -252,7 +292,7 @@ var CustomImportScript = (() => {
       return;
     }
     const list = element.closest(".generated-list");
-    let name = "cards-tile";
+    let name = isGallery ? "cards-tile (gallery)" : "cards-tile";
     if (list) {
       name = list.classList.contains("u-align-75percent-center") || list.querySelector(".generated-list-centered") ? "cards-tile (related)" : "cards-tile (list)";
     }
@@ -343,6 +383,21 @@ var CustomImportScript = (() => {
         const strong = doc.createElement("strong");
         a.replaceWith(strong);
         strong.append(a);
+      });
+      element.querySelectorAll("p > a.c-button--ghost-positive[href]").forEach((a) => {
+        if (a.closest("strong, em, b, i, table")) return;
+        if (a.parentElement.textContent.trim() !== a.textContent.trim()) return;
+        const strong = doc.createElement("strong");
+        const em = doc.createElement("em");
+        a.replaceWith(strong);
+        strong.append(em);
+        em.append(a);
+      });
+      element.querySelectorAll("h4.u-h5").forEach((h4) => {
+        if (h4.closest("table")) return;
+        const h5 = doc.createElement("h5");
+        while (h4.firstChild) h5.append(h4.firstChild);
+        h4.replaceWith(h5);
       });
       element.querySelectorAll("center").forEach((center) => {
         const p = doc.createElement("p");

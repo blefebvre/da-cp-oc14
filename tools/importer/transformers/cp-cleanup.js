@@ -127,6 +127,27 @@ export default function transform(hookName, element, payload) {
       strong.append(a);
     });
 
+    // Outlined red CTA (/en/careers .recent-jobs-banner > p > a.c-button--ghost-positive
+    // "Find all our open vacancies") -> accent button (<strong><em><a>).
+    element.querySelectorAll('p > a.c-button--ghost-positive[href]').forEach((a) => {
+      if (a.closest('strong, em, b, i, table')) return;
+      if (a.parentElement.textContent.trim() !== a.textContent.trim()) return;
+      const strong = doc.createElement('strong');
+      const em = doc.createElement('em');
+      a.replaceWith(strong);
+      strong.append(em);
+      em.append(a);
+    });
+
+    // Timeline sub-headings rendered one level down (/en/about/our-legacy
+    // .subtitle > h4.u-h5 "1900s"...) -> h5, so they get the h5 size like the source.
+    element.querySelectorAll('h4.u-h5').forEach((h4) => {
+      if (h4.closest('table')) return;
+      const h5 = doc.createElement('h5');
+      while (h4.firstChild) h5.append(h4.firstChild);
+      h4.replaceWith(h5);
+    });
+
     // Image captions (/en/about/our-reach .image.s-editor > center > i) -> paragraph.
     element.querySelectorAll('center').forEach((center) => {
       const p = doc.createElement('p');

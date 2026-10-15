@@ -224,9 +224,83 @@
         "https://www.cp.com/en/careers"
       ],
       "representativeUrl": "https://www.cp.com/en/about/our-legacy",
-      "description": "To be named in naming step",
-      "blocks": [],
-      "urlPattern": "/en/*"
+      "description": "Chicago Pneumatic editorial pages with a photo gallery or jobs banner (Our legacy, Careers): H1 + lead/intro text, decade timeline (headings + bullet lists) or image, heritage photo gallery with video tile, recently posted jobs banner, related-link tiles",
+      "blocks": [
+        {
+          "name": "cards-tile",
+          "instances": [
+            ".cp-content-page > .card-overview .o-grid",
+            ".generated-list .o-grid"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            ".cp-content-page > .recent-jobs-banner > .o-grid"
+          ]
+        }
+      ],
+      "urlPattern": "/en/*",
+      "sections": [
+        {
+          "id": "s1",
+          "name": "intro",
+          "selector": [
+            ".cp-content-page > .title"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            ".title h1",
+            ".paragraph .c-lead p",
+            ".paragraph h5",
+            ".subtitle h4",
+            ".paragraph ul",
+            ".image picture"
+          ]
+        },
+        {
+          "id": "s2",
+          "name": "heritage-gallery",
+          "selector": [
+            ".cp-content-page > .card-overview"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-tile"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "s3",
+          "name": "recent-jobs",
+          "selector": [
+            ".cp-content-page > .recent-jobs-banner"
+          ],
+          "style": "wide, subdued",
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": [
+            ".recent-jobs-banner h4",
+            ".recent-jobs-banner > p a.c-button"
+          ]
+        },
+        {
+          "id": "s4",
+          "name": "related-links",
+          "selector": [
+            ".cp-content-page > .c-row--divider:has(> .generated-list.u-align-75percent-center)"
+          ],
+          "style": "center",
+          "blocks": [
+            "cards-tile"
+          ],
+          "defaultContent": [
+            ".title-box h4"
+          ]
+        }
+      ]
     },
     {
       "name": "careers",
