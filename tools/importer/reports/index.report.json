@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "url": "https://www.cp.com/en#index",
+  "path": "index",
+  "timestamp": "2026-10-15T03:23:28.583Z",
+  "title": "Chicago Pneumatic Homepage - Chicago Pneumatic",
+  "template": "home",
+  "blocks": [
+    "cards-crossroad",
+    "cards-tile"
+  ]
+}

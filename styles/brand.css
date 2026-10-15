@@ -1,0 +1,24 @@
+/* Chicago Pneumatic brand tokens (extracted from https://www.cp.com/en) */
+:root {
+  /* colors */
+  --background-color: #fff;
+  --text-color: #000;
+  --link-color: #000;
+  --link-hover-color: #ed1c2e;
+  --brand-red: #ed1c2e;
+  --brand-red-overlay: rgb(237 28 46 / 90%);
+  --divider-color: #dadcdc;
+  --muted-text-color: #5a5d60;
+  --light-color: #f4f4f4;
+  --dark-color: #000;
+
+  /* fonts (system fonts on the source site) */
+  --body-font-family: arial, helvetica, sans-serif;
+  --heading-font-family: "Arial Black", "Arial Bold", arial, sans-serif;
+
+  /* spacing */
+  --gutter: 21.6px;
+  --content-max-width: 960px;
+  --section-padding: 54px;
+  --nav-height: 100px;
+}

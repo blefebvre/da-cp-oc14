@@ -1,0 +1,11 @@
+{
+  "type": "da",
+  "sites": {
+    "da-cp-oc14": {
+      "previewOrg": "blefebvre",
+      "previewSite": "da-cp-oc14",
+      "contentHostUrl": "https://content.da.live/blefebvre/da-cp-oc14/",
+      "libraryUrl": "https://main--sta-boilerplate--aemdemos.aem.page/tools/sidekick/library.json"
+    }
+  }
+}

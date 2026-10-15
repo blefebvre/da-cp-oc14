@@ -1,0 +1,21 @@
+{
+  "variantName": "cards-tile",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "normal",
+    "purpose": "promo-link-tiles",
+    "imagePattern": "image-top",
+    "structure": "image + linked heading",
+    "layout": "2 columns within ~75% centered width, red caption bar overlapping bottom of greyscale photo, white bold title, whole tile clickable"
+  },
+  "contentPattern": "One row per tile: cell 1 = image; cell 2 = H4 (or paragraph) containing link to /en/about and /en/careers respectively.",
+  "usage": {
+    "pagesUsing": ["https://www.cp.com/en"],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-15"
+  },
+  "options": [],
+  "memberVariantIds": ["cards-tile"]
+}

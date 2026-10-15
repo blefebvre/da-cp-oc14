@@ -1,0 +1,69 @@
+{
+  "metadata": {
+    "projectType": "da"
+  },
+  "templates": [
+    {
+      "name": "home",
+      "urls": [
+        "https://www.cp.com/en"
+      ],
+      "representativeUrl": "https://www.cp.com/en",
+      "description": "Chicago Pneumatic corporate homepage: division crossroad panels, statement heading, promo link tiles",
+      "urlPattern": "/*",
+      "blocks": [
+        {
+          "name": "cards-crossroad",
+          "instances": [
+            ".ba-crossroad-component"
+          ]
+        },
+        {
+          "name": "cards-tile",
+          "instances": [
+            ".card-overview"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "rc2",
+          "name": "division-crossroad",
+          "selector": [
+            ".ba-crossroad-component"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-crossroad"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "rc3",
+          "name": "statement",
+          "selector": [
+            ".c-parsys-divider > .subtitle.s-editor"
+          ],
+          "style": "statement",
+          "blocks": [],
+          "defaultContent": [
+            ".subtitle.s-editor h2",
+            ".subtitle.s-editor h3"
+          ]
+        },
+        {
+          "id": "rc5",
+          "name": "promo-tiles",
+          "selector": [
+            ".card-overview"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-tile"
+          ],
+          "defaultContent": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,319 @@
+/* cards-crossroad: full-bleed division panels (values from www.cp.com/en) */
+
+/* break out of the section content width - this block is edge to edge */
+main > .section.cards-crossroad-container > .cards-crossroad-wrapper {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cards-crossroad > ul {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0 0 10px;
+  list-style: none;
+}
+
+.cards-crossroad .cards-crossroad-card {
+  position: relative;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 300px;
+  overflow: hidden;
+  color: #fff;
+}
+
+.cards-crossroad .cards-crossroad-card-image {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  line-height: 0;
+}
+
+.cards-crossroad .cards-crossroad-card-image picture,
+.cards-crossroad .cards-crossroad-card-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+/* dark translucent band */
+.cards-crossroad .cards-crossroad-card-body {
+  flex: 1 0 auto;
+  box-sizing: border-box;
+  padding: 65px 25px 25px;
+  background-color: rgb(0 0 0 / 70%);
+}
+
+/* title + description, with the red bullet / bar */
+.cards-crossroad .cards-crossroad-card-title {
+  position: relative;
+  padding-left: 15px;
+  color: #fff;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.cards-crossroad .cards-crossroad-card-title::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: -8px;
+  width: 12px;
+  height: 12px;
+  background-color: var(--brand-red);
+}
+
+.cards-crossroad .cards-crossroad-card-heading {
+  margin: 0 0 9px;
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 30px;
+  letter-spacing: -0.9px;
+}
+
+.cards-crossroad .cards-crossroad-card-description {
+  max-height: 0;
+  margin-bottom: 18px;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.cards-crossroad .cards-crossroad-card-description p {
+  margin: 0;
+  color: #fff;
+  font-family: var(--body-font-family);
+  font-size: 21px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 31.5px;
+}
+
+/* explore link + region list */
+.cards-crossroad .cards-crossroad-card-details {
+  display: none;
+  padding-left: 15px;
+}
+
+.cards-crossroad .cards-crossroad-card-explore {
+  margin: 40px 0 0;
+}
+
+.cards-crossroad .cards-crossroad-card-explore a:any-link {
+  display: block;
+  width: fit-content;
+  padding: 10px 25px;
+  border: 2px solid var(--brand-red);
+  color: var(--brand-red);
+  font-size: 21px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 26px;
+  text-decoration: none;
+}
+
+.cards-crossroad .cards-crossroad-card-regions {
+  max-height: 320px;
+  margin: 18px 0 0;
+  padding: 10px;
+  overflow-y: auto;
+  list-style: none;
+  background: rgb(36 36 36);
+  color: #fff;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-s);
+  font-weight: 400;
+  line-height: 1.5;
+  overscroll-behavior: contain;
+}
+
+.cards-crossroad .cards-crossroad-card-regions li {
+  margin: 0;
+  padding: 3px 0;
+}
+
+.cards-crossroad .cards-crossroad-card-regions a:any-link {
+  color: #fff;
+  text-decoration: none;
+}
+
+.cards-crossroad .cards-crossroad-card-regions a:hover,
+.cards-crossroad .cards-crossroad-card-regions a:focus-visible {
+  color: var(--brand-red);
+  text-decoration: underline;
+}
+
+/* "+" toggle (red square, bottom-right) */
+.cards-crossroad .cards-crossroad-card-toggle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 50px;
+  height: 50px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: var(--brand-red);
+  color: #fff;
+  font-family: var(--body-font-family);
+  font-size: 31.5px;
+  line-height: 1;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.1s;
+}
+
+.cards-crossroad .cards-crossroad-card-toggle-icon {
+  display: inline-block;
+  transition: transform 0.1s;
+}
+
+.cards-crossroad .cards-crossroad-card-toggle:focus-visible {
+  outline: 1px solid #fff;
+  outline-offset: -4px;
+}
+
+/* open state */
+.cards-crossroad .cards-crossroad-card.is-open .cards-crossroad-card-description {
+  max-height: none;
+  opacity: 1;
+}
+
+.cards-crossroad .cards-crossroad-card.is-open .cards-crossroad-card-details {
+  display: block;
+}
+
+/* keep the open content clear of the bottom-right toggle */
+.cards-crossroad .cards-crossroad-card.is-open .cards-crossroad-card-body {
+  padding-bottom: 75px;
+}
+
+.cards-crossroad .cards-crossroad-card.is-open .cards-crossroad-card-toggle {
+  background-color: rgb(197 147 41);
+}
+
+.cards-crossroad .cards-crossroad-card.is-open .cards-crossroad-card-toggle-icon {
+  transform: rotate(45deg);
+}
+
+@media (width >= 900px) {
+  .cards-crossroad > ul {
+    flex-direction: row;
+    gap: 6px;
+  }
+
+  .cards-crossroad .cards-crossroad-card {
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 80vh;
+    transition: flex-grow 0.1s;
+  }
+
+  .cards-crossroad .cards-crossroad-card.has-link {
+    cursor: pointer;
+  }
+
+  /* hovered panel grows to 2x (50% / 25% / 25%) */
+  .cards-crossroad .cards-crossroad-card:hover,
+  .cards-crossroad .cards-crossroad-card:focus-within,
+  .cards-crossroad .cards-crossroad-card.is-open {
+    flex-grow: 2;
+  }
+
+  .cards-crossroad .cards-crossroad-card-body,
+  .cards-crossroad .cards-crossroad-card.is-open .cards-crossroad-card-body {
+    flex: none;
+    min-height: 147px;
+    padding: 25px;
+  }
+
+  .cards-crossroad .cards-crossroad-card-heading {
+    font-size: 35px;
+    line-height: 35px;
+  }
+
+  /* hover: red square becomes a bar along title + description */
+  .cards-crossroad .cards-crossroad-card:hover .cards-crossroad-card-title::before,
+  .cards-crossroad .cards-crossroad-card:focus-within .cards-crossroad-card-title::before,
+  .cards-crossroad .cards-crossroad-card.is-open .cards-crossroad-card-title::before {
+    top: 4px;
+    height: 100%;
+  }
+
+  .cards-crossroad .cards-crossroad-card:hover .cards-crossroad-card-description,
+  .cards-crossroad .cards-crossroad-card:focus-within .cards-crossroad-card-description,
+  .cards-crossroad .cards-crossroad-card.is-open .cards-crossroad-card-description {
+    max-height: 500px;
+    opacity: 1;
+    transition: opacity 0.25s, max-height 0.6s ease-in;
+  }
+
+  /* explore link covers the whole panel (source: panel is the link) */
+  .cards-crossroad .cards-crossroad-card-details {
+    display: block;
+  }
+
+  .cards-crossroad .cards-crossroad-card-explore {
+    height: 0;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .cards-crossroad .cards-crossroad-card-explore a:any-link {
+    outline: 0;
+  }
+
+  .cards-crossroad .cards-crossroad-card-explore a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .cards-crossroad .cards-crossroad-card-explore a:focus-visible::after {
+    outline: 1px solid #fff;
+    outline-offset: -1px;
+  }
+
+  .cards-crossroad .cards-crossroad-card-regions {
+    display: none;
+  }
+
+  .cards-crossroad .cards-crossroad-card-toggle {
+    opacity: 0;
+  }
+
+  .cards-crossroad .cards-crossroad-card:hover .cards-crossroad-card-toggle,
+  .cards-crossroad .cards-crossroad-card:focus-within .cards-crossroad-card-toggle,
+  .cards-crossroad .cards-crossroad-card.is-open .cards-crossroad-card-toggle {
+    opacity: 1;
+  }
+
+  /* open (desktop): show explore button + region list in the band */
+  .cards-crossroad .cards-crossroad-card.is-open .cards-crossroad-card-explore {
+    height: auto;
+    margin: 0;
+    overflow: visible;
+  }
+
+  .cards-crossroad .cards-crossroad-card.is-open .cards-crossroad-card-explore a::after {
+    content: none;
+  }
+
+  .cards-crossroad .cards-crossroad-card.is-open .cards-crossroad-card-regions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 18px;
+    max-height: 240px;
+    margin-right: 35px;
+  }
+}

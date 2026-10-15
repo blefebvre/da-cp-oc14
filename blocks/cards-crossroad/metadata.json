@@ -1,0 +1,21 @@
+{
+  "variantName": "cards-crossroad",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "spacious",
+    "purpose": "division-crossroad",
+    "imagePattern": "full-bleed-background",
+    "structure": "image + heading + description + link + region list",
+    "layout": "3 columns full-width, ~575px tall, overlay text band on lower portion, red square bullet before title, hover/expand reveals description and region selector"
+  },
+  "contentPattern": "One row per division: cell 1 = background image; cell 2 = H2 title, description paragraph, 'Explore' link to the primary division site, followed by a bulleted list of region/language links (country - language) taken from the card's tabcontent panel. Block JS reveals the description/list on hover or '+' click.",
+  "usage": {
+    "pagesUsing": ["https://www.cp.com/en"],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-15"
+  },
+  "options": [],
+  "memberVariantIds": ["cards-crossroad"]
+}

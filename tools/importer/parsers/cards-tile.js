@@ -1,0 +1,92 @@
+/* eslint-disable */
+/* global WebImporter */
+/**
+ * Parser for cards-tile. Base: cards. Source: https://www.cp.com/en
+ *
+ * Output (cards convention, 2 columns; content model from authoring-analysis.json and
+ * blocks/cards-tile/cards-tile.js): one row per tile: [ image | H4 containing link ]
+ *
+ * Validated selectors (migration-work/block-context/cards-tile/source.html):
+ *   .o-grid__item-fix (div, repeating unit x2, iterationSafe) > .o-grid__item > .c-tile
+ *   .c-tile__img img (image; alt from the wrapper's title attribute)
+ *   h4.c-tile__title > a.js-blocklink__source (title + link)
+ *   .c-tile__content p (optional description; empty on source page)
+ *   live DOM: .c-tile__img has no <img>; renditions in data-imgsrc-<width> (600 preferred)
+ * Iteration is keyed on block-level div wrappers (never on anchors).
+ */
+function cleanText(text) {
+  return (text || '').replace(/\s+/g, ' ').trim();
+}
+
+export default function parse(element, { document }) {
+  let tiles = [...element.querySelectorAll('.c-tile')];
+  if (!tiles.length) tiles = [...element.querySelectorAll('.o-grid__item')];
+
+  const cells = [];
+  tiles.forEach((tile) => {
+    // Cell 1: image
+    const imageCell = [];
+    const imgWrap = tile.querySelector('.c-tile__img') || tile.querySelector('.cq-dd-image');
+    let img = (imgWrap && imgWrap.querySelector('img')) || tile.querySelector('img');
+    if (!img && imgWrap) {
+      // Live DOM: lazy-loaded wrapper carries Scene7 renditions as data-imgsrc-<width>
+      // (e.g. data-imgsrc-600="//atlascopco.scene7.com/is/image/atlascopco/...?$landscape600$").
+      const renditions = [...imgWrap.attributes]
+        .filter((a) => /^data-imgsrc-\d+$/.test(a.name) && a.value)
+        .map((a) => ({ w: parseInt(a.name.split('-').pop(), 10), src: a.value.trim() }))
+        .sort((a, b) => a.w - b.w);
+      const pick = renditions.find((r) => r.w === 600)
+        || renditions.find((r) => r.w >= 600) || renditions[renditions.length - 1];
+      if (pick) {
+        img = document.createElement('img');
+        img.src = pick.src.startsWith('//') ? `https:${pick.src}` : pick.src;
+      }
+    }
+    if (img) {
+      if (!img.getAttribute('alt')) {
+        const alt = cleanText(imgWrap && imgWrap.getAttribute('title'));
+        if (alt) img.setAttribute('alt', alt);
+      }
+      imageCell.push(img);
+    }
+
+    // Cell 2: H4 containing the tile link (+ optional description)
+    const content = [];
+    const titleEl = tile.querySelector('.c-tile__title') || tile.querySelector('h2, h3, h4, h5');
+    const titleText = cleanText(titleEl && titleEl.textContent);
+    const link = (titleEl && titleEl.querySelector('a[href]'))
+      || tile.querySelector('a.js-blocklink__source[href]')
+      || tile.closest('a[href]');
+    if (titleText) {
+      const h4 = document.createElement('h4');
+      const href = link && link.getAttribute('href');
+      if (href && !/^javascript:/i.test(href)) {
+        const a = document.createElement('a');
+        a.href = href;
+        a.textContent = titleText;
+        h4.append(a);
+      } else {
+        h4.textContent = titleText;
+      }
+      content.push(h4);
+    }
+
+    const contentWrap = tile.querySelector('.c-tile__content');
+    if (contentWrap) {
+      [...contentWrap.querySelectorAll(':scope > p')].forEach((p) => {
+        if (cleanText(p.textContent)) content.push(p);
+      });
+    }
+
+    if (!content.length && !imageCell.length) return;
+    cells.push([imageCell.length ? imageCell : '', content.length ? content : '']);
+  });
+
+  if (!cells.length) {
+    element.replaceWith(...element.childNodes);
+    return;
+  }
+
+  const block = WebImporter.Blocks.createBlock(document, { name: 'cards-tile', cells });
+  element.replaceWith(block);
+}
