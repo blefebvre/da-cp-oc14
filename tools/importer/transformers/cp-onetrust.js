@@ -105,13 +105,17 @@ export default function transform(hookName, element, payload) {
   if (!notices.length) return undefined;
 
   // OneTrust chrome: language switcher (other locales are separate sites; it
-  // sits both before and inside the notice) and the empty version stamp.
+  // sits both before and inside the notice), the empty version stamp and the
+  // section menu (in-page anchor list, desktop + mobile copies; hidden on the
+  // source, e.g. /en/cybersecurity when OneTrust renders the notice live).
   element.querySelectorAll('.privacy-policy').forEach((pp) => {
     WebImporter.DOMUtils.remove(pp, [
       '.otnotice-language-dropdown-container',
       '.ot-privacy-notice-language-dropdown-container',
       '#otnotice-language-dropdown',
       '.otnotice-version',
+      '.otnotice-menu',
+      '.otnotice-menu-mobile',
     ]);
   });
 

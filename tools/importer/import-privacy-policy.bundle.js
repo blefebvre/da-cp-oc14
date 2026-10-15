@@ -430,7 +430,9 @@ var CustomImportScript = (() => {
         ".otnotice-language-dropdown-container",
         ".ot-privacy-notice-language-dropdown-container",
         "#otnotice-language-dropdown",
-        ".otnotice-version"
+        ".otnotice-version",
+        ".otnotice-menu",
+        ".otnotice-menu-mobile"
       ]);
     });
     notices.forEach((notice) => {

@@ -538,16 +538,17 @@ main .section.notice > .default-content-wrapper p {
   color: #0d0d0d;
 }
 
-/* notice, inset: newer OneTrust notice template (e.g. vulnerability disclosure notice):
- * text inset 58px each side, 20px under the title, labels in regular weight */
+/* notice, inset: newer OneTrust notice template (e.g. vulnerability disclosure notice,
+ * cybersecurity statement): text inset 58px each side on mobile, 58px left / 18px right
+ * in the 960px column on desktop, 20px under the title, labels in regular weight */
 main .section.notice.inset > .default-content-wrapper {
   padding-inline: calc(var(--gutter) + 58px);
 }
 
 @media (width >= 1280px) {
   main .section.notice.inset > .default-content-wrapper {
-    max-width: calc(var(--content-max-width) - 116px);
-    padding-inline: 0;
+    max-width: calc(var(--content-max-width) - 76px);
+    padding-inline: 40px 0;
   }
 }
 
